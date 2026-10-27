@@ -1,0 +1,49 @@
+
+# Node.js, npm
+node_modules/
+.npm/
+
+# Log datoteke
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Next.js
+.next/
+out/
+build/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# .env
+.env
+.env.*
+!.env.example
+!.env.template
+
+# private keys
+*.pem
+
+# Supabase CLI
+**/supabase/.temp/
+**/supabase/.branches/
+
+# Testiranje
+coverage/
+playwright-report/
+test-results/
+
+# IDE
+.idea/
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+.vercel/
