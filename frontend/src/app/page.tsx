@@ -28,9 +28,9 @@ export default function Home() {
           <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#8a6942]">Small actions. Lasting virtues.</p>
           <h1 className="max-w-2xl font-serif text-5xl leading-[1.05] tracking-tight sm:text-7xl">Become who you choose to be.</h1>
           <p className="mt-7 max-w-xl text-lg leading-8 text-[#626b60]">Build the qualities that matter to you through thoughtful weekly challenges, shared accountability, and progress you can see.</p>
-          <a href="#factions" className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#263a31] px-6 py-3.5 text-sm font-medium text-white transition hover:bg-[#344d41]">
+          <Link href="/factions" className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#263a31] px-6 py-3.5 text-sm font-medium text-white transition hover:bg-[#344d41]">
             Explore the factions <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
           <p className="mt-5 text-xs text-[#788075]">Your path can hold more than one virtue.</p>
         </div>
 
