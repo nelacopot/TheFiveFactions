@@ -1,32 +1,32 @@
 # The Five Factions
 
-### **The Five Factions** je spletna aplikacija, namenjena razvijanju različnih vrlin s pomočjo tedenskih nalog in spremljanja svojega napredka skozi igrifikacijo. V ozadju je ideja, da človek svoje navade in osebnost razvija ter izboljšuje z rednim izvajanjem majhnih aktivnosti.
+Spletna aplikacija za razvijanje vrlin s tedenskimi nalogami, skupnostnim preverjanjem dokazil in spremljanjem napredka. Arhitekturne odločitve, podatkovni model in obseg so opisani v mapi [docs](docs/).
 
-Za idejo me je navdihnila knjižna in filmska serija "Divergent" oz. "Razcepljeni" v slovenščini. V družbi
-tam ljudi delijo v pet različnih "ločin" oz. "factions", ki imajo kot svoj temelj v ospredju eno od vrlin.
+## Tehnologije
 
-Vrline in ločine "The Five Factions" bodo v moji aplikaciji pod naslednjimi imeni:
+- **Aplikacija:** Next.js, React, TypeScript, Tailwind CSS
+- **Strežniška logika:** Next.js Server Actions in Route Handlers (`frontend/`)
+- **Podatkovne storitve:** Supabase PostgreSQL, Auth in Storage
+- **Lokalni Supabase:** Supabase CLI in Docker
 
-- **Altruism**
-- **Intellect**
-- **Grit**
-- **Harmony**
-- **Verity**
+Frontend in backend sta namenoma en Next.js modularni monolit; mapa `backend/` ne predstavlja ločenega API strežnika.
 
-Svoje vrline bodo uporabniki razvijali s pomočjo tedenskih opravil ("tasks"), napredovali v rangu, če opravila opravijo ter nazadovali v rangu, če opravil ne opravijo. Tako bodo uporabniki dejansko motivirani, da postanejo boljša različica sebe.
+## Lokalni zagon
 
-Uporabnik ni omejen na izbiro le ene izmed vrednot, lahko jih izbere tudi več in je tako kot je imenovano v zgodbi: razcepljen ("divergent"). Tako prejme opravila večih ločin ("factions").
+Potrebujete Node.js LTS, npm, Docker Desktop (ali združljiv pogon vsebnikov) in Supabase CLI.
 
-## Uporabljene tehnologije
+1. V korenski mapi projekta zaženite `npx supabase start`.
+2. V drugem terminalu pojdite v `frontend`, namestite pakete z `npm install` in kopirajte `.env.example` v `.env.local`.
+3. V `.env.local` nastavite lokalni Supabase `API URL` in `anon` ključ, ki ju izpiše `supabase start`.
+4. Zaženite aplikacijo z `npm run dev` in odprite `http://localhost:3000`.
 
-- __Frontend__: Next.js, React, TypeScript
-- __Oblikovanje__: Tailwind CSS
-- __Backend__: Next.js Server Actions in Route Handlers
-- __Podatkovna baza__: PostgreSQL preko Supabase
-- __Dostop do podatkov__: Supabase JavaScript Client
-- __Avtentikacija__: Supabase Auth
-- __Datotečna shramba__: Supabase Storage
-- __Lokalni razvoj__: Node.js LTS, npm, Docker, Supabase CLI
-- __Razvojna orodja__: Visual Studio Code, Git
+Lokalni Supabase Studio je privzeto na `http://127.0.0.1:54323`. Spremembe sheme bodo dodane kot ločene migracije v `supabase/migrations/`.
 
-### [Povezava do dokumentacije](docs/)
+## Ukazi v mapi `frontend`
+
+- `npm run dev` – razvojni strežnik
+- `npm run build` – produkcijska gradnja
+- `npm run lint` – preverjanje sloga kode
+- `npm run typecheck` – preverjanje TypeScript tipov
+
+V repozitorij nikoli ne dodajajte `.env.local`, servisnega ključa ali drugih skrivnosti.
