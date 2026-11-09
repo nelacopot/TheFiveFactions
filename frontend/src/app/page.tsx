@@ -18,6 +18,7 @@ export default function Home() {
         </Link>
         <div className="flex items-center gap-6">
           <span className="hidden text-xs uppercase tracking-[0.2em] text-[#6c746a] sm:block">A practice in becoming</span>
+          <Link href="/login" className="text-xs font-semibold text-[#263a31] underline underline-offset-4">Prijava</Link>
           <Link href="/register" className="rounded-full border border-[#263a31] px-4 py-2 text-xs font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">Ustvari račun</Link>
         </div>
       </header>
