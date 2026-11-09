@@ -16,7 +16,10 @@ export default function Home() {
           <span className="grid size-10 place-items-center rounded-full bg-[#263a31] font-serif text-lg text-[#f5f2ea]">5</span>
           <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
         </Link>
-        <span className="hidden text-xs uppercase tracking-[0.2em] text-[#6c746a] sm:block">A practice in becoming</span>
+        <div className="flex items-center gap-6">
+          <span className="hidden text-xs uppercase tracking-[0.2em] text-[#6c746a] sm:block">A practice in becoming</span>
+          <Link href="/register" className="rounded-full border border-[#263a31] px-4 py-2 text-xs font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">Ustvari račun</Link>
+        </div>
       </header>
 
       <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 pb-20 pt-12 sm:px-10 md:grid-cols-[1.1fr_0.9fr] md:pb-32 md:pt-20">
