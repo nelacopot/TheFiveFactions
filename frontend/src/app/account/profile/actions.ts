@@ -123,3 +123,39 @@ export async function updatePasswordAction(
     return { status: "error", message: "Povezava trenutno ni na voljo. Poskusi znova." };
   }
 }
+
+export async function updateFactionSelectionAction(
+  _previousState: ProfileActionState,
+  formData: FormData,
+): Promise<ProfileActionState> {
+  const rawIds = formData.getAll("factionIds");
+  const factionIds = rawIds.map((value) => Number(value));
+  if (
+    factionIds.length === 0 ||
+    factionIds.some((id) => !Number.isSafeInteger(id) || id < 1 || id > 32767) ||
+    new Set(factionIds).size !== factionIds.length
+  ) {
+    return { status: "error", message: "Izberi vsaj eno veljavno ločino." };
+  }
+
+  try {
+    const { supabase, user } = await getSignedInClient();
+    if (!supabase || !user) return { status: "error", message: "Seja je potekla. Prijavi se znova." };
+
+    const { error } = await supabase.rpc("set_user_factions", {
+      target_faction_ids: factionIds,
+    });
+    if (error) {
+      if (error.message.includes("Choose at least one faction")) {
+        return { status: "error", message: "Izberi vsaj eno ločino." };
+      }
+      return { status: "error", message: "Izbire ločin ni bilo mogoče shraniti. Poskusi znova." };
+    }
+
+    revalidatePath("/account");
+    revalidatePath("/account/profile");
+    return { status: "success", message: "Izbira ločin je shranjena." };
+  } catch {
+    return { status: "error", message: "Povezava trenutno ni na voljo. Poskusi znova." };
+  }
+}

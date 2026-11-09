@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
 import { ProfileForms } from "./profile-forms";
+import { FactionSelectionForm } from "./faction-selection-form";
 
 export const metadata: Metadata = {
   title: "Urejanje profila · The Five Factions",
@@ -28,6 +29,12 @@ async function ProfilePageContent({
     .eq("id", user.id)
     .single();
   if (profileError || !profile) redirect("/account");
+
+  const [{ data: factions, error: factionsError }, { data: memberships, error: membershipsError }] = await Promise.all([
+    supabase.from("factions").select("id, name, description").eq("is_active", true).order("name"),
+    supabase.from("user_factions").select("faction_id").eq("user_id", user.id).eq("membership_status", "active"),
+  ]);
+  if (factionsError || membershipsError || !factions || !memberships) redirect("/account");
 
   const { emailStatus } = await searchParams;
 
@@ -58,7 +65,13 @@ async function ProfilePageContent({
             </p>
           )}
 
-          <ProfileForms email={user.email ?? ""} username={profile.username} />
+          <div className="space-y-5">
+            <FactionSelectionForm
+              factions={factions}
+              selectedFactionIds={memberships.map((membership) => membership.faction_id)}
+            />
+            <ProfileForms email={user.email ?? ""} username={profile.username} />
+          </div>
         </section>
       </div>
     </main>
