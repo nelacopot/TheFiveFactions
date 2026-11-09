@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import type { Metadata } from "next";
+import { AuthLoading } from "@/app/auth-loading";
 
 export const metadata: Metadata = {
   title: "Potrditev e-pošte · The Five Factions",
   robots: { index: false, follow: false },
 };
 
-export default async function RegistrationConfirmedPage({
+async function RegistrationConfirmedContent({
   searchParams,
 }: {
   searchParams: Promise<{ status?: string }>;
@@ -31,5 +33,17 @@ export default async function RegistrationConfirmedPage({
         </Link>
       </section>
     </main>
+  );
+}
+
+export default function RegistrationConfirmedPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  return (
+    <Suspense fallback={<AuthLoading />}>
+      <RegistrationConfirmedContent searchParams={searchParams} />
+    </Suspense>
   );
 }

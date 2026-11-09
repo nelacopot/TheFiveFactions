@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { registerAction } from "./actions";
 import {
   validateRegistration,
@@ -111,7 +112,9 @@ export function RegistrationForm() {
         {isPending ? "Ustvarjam račun …" : "Ustvari račun"}
       </button>
 
-      <p className="text-center text-xs leading-5 text-[#788075]">Po potrditvi e-pošte se boš lahko prijavila z izbranim naslovom in geslom.</p>
+      <p className="text-center text-sm text-[#6c746a]">
+        Že imaš račun? <Link href="/login" className="font-semibold text-[#294738] underline underline-offset-4">Prijava</Link>
+      </p>
     </form>
   );
 }

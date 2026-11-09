@@ -18,6 +18,12 @@ export async function GET(request: NextRequest) {
     type,
   });
 
-  destination.searchParams.set("status", error ? "invalid" : "success");
-  return NextResponse.redirect(destination);
+  if (error) {
+    destination.searchParams.set("status", "invalid");
+    return NextResponse.redirect(destination);
+  }
+
+  const accountUrl = new URL("/account", request.url);
+  accountUrl.searchParams.set("confirmed", "1");
+  return NextResponse.redirect(accountUrl);
 }
