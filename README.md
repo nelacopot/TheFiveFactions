@@ -20,7 +20,7 @@ Potrebujete Node.js LTS, npm, Docker Desktop (ali združljiv pogon vsebnikov) in
 3. V `.env.local` nastavite lokalni Supabase `API URL` in `anon` ključ, ki ju izpiše `supabase start`.
 4. Zaženite aplikacijo z `npm run dev` in odprite `http://localhost:3000`.
 
-Lokalni Supabase Studio je privzeto na `http://127.0.0.1:54323`. Spremembe sheme bodo dodane kot ločene migracije v `supabase/migrations/`.
+Lokalni Supabase Studio je privzeto na `http://127.0.0.1:54323`, prejeta razvojna e-pošta pa v Mailpitu na `http://127.0.0.1:54324`. Lokalna e-pošta se ne pošilja v prave nabiralnike. Spremembe sheme bodo dodane kot ločene migracije v `supabase/migrations/`.
 
 ## Ukazi v mapi `frontend`
 
@@ -30,3 +30,6 @@ Lokalni Supabase Studio je privzeto na `http://127.0.0.1:54323`. Spremembe sheme
 - `npm run typecheck` – preverjanje TypeScript tipov
 
 V repozitorij nikoli ne dodajajte `.env.local`, servisnega ključa ali drugih skrivnosti.
+
+## Mailpit
+http://localhost:54324/

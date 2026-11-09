@@ -15,3 +15,5 @@ on conflict (user_id, role_id) do nothing;
 ```
 
 This is only for bootstrapping a local development account. Future role changes should go through the application's administrator workflow.
+
+Signup confirmation emails in local development are captured by Mailpit at `http://127.0.0.1:54324`; they are not delivered to real inboxes. The confirmation link verifies its token through `/auth/confirm` and establishes the server-side session cookie. For a hosted environment, configure a real SMTP provider and the correct Auth Site URL in Supabase.
