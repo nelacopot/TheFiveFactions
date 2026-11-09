@@ -31,8 +31,8 @@ Pomen kratic:
 - FK - foreign key
 
 ### 1. User
-- id (PK)
-- email (unique)
+- id (PK, FK to Supabase Auth user)
+- email (unique, managed by Supabase Auth)
 - username (unique)
 - display_name
 - account_status
@@ -223,3 +223,13 @@ erDiagram
     datetime reviewed_at
   }
 ```
+
+### Uveljavitev v Supabase
+
+Prva migracija je v `supabase/migrations/`. Supabase Auth ostaja vir resnice za e-pošto in prijavne podatke; tabela `profiles` je aplikacijski del uporabniškega profila in se z identifikatorjem poveže 1:1 z `auth.users`. E-pošte zato ne podvajamo v `profiles`. Ob registraciji se profil in vloga Member ustvarita samodejno.
+
+Migracija doda še `work_description` pri dokazilu, ker zgodba zahteva opis izvedbe ločeno od osebnega razmisleka. Dodelitev naloge ima tudi status `cancelled`, ki ohrani zgodovino, kadar uporabnik zapusti ločino; odprte dodelitve te ločine se ob odstranitvi članstva prekličejo. Članstvo se spremeni prek atomarnega `set_faction_membership` RPC-ja, ki ob prostovoljnem izstopu ohrani zapis članstva in rang. Če se uporabnik po statusu Factionless vrne v ločino, se članstvo začne z rangom 1, 0 XP in streakom 0. Dokazila in pregledi so ob oddaji/preverjanju povezani s spremembo statusa dodelitve v isti transakciji.
+
+RLS je vklopljen za vseh devet tabel. Član lahko ureja svoje profilne podatke in članstva, ne more pa sam spreminjati ranga, vloge, vsebine nalog ali statusa dokazila. E-pošta ostaja v Auth in ni izpostavljena pri branju profilov. Začetna vloga Administrator se podeli ročno lokalnemu računu prek Supabase Studia; poznejša dodeljevanja naj potekajo prek administratorskega vmesnika.
+
+Fotografije dokazil se shranjujejo v zasebni bucket `evidence`; dovoljene so slike JPEG, PNG in WebP do 50 MiB. Povezave do Storage objektov so dostopne samo prijavljenim članom, nalaganje pa je omejeno na mapo z ID-jem lastnega računa. Lokalni Auth zahteva potrjen e-poštni naslov in uporablja 15-minutni čas neaktivnosti, kot določajo uporabniške zgodbe.
