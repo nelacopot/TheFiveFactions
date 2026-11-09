@@ -1,0 +1,78 @@
+import Link from "next/link";
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { createClient } from "@/lib/supabase/server";
+import { AuthLoading } from "@/app/auth-loading";
+import { ProfileForms } from "./profile-forms";
+
+export const metadata: Metadata = {
+  title: "Urejanje profila · The Five Factions",
+  robots: { index: false, follow: false },
+};
+
+async function ProfilePageContent({
+  searchParams,
+}: {
+  searchParams: Promise<{ emailStatus?: string }>;
+}) {
+  await connection();
+  const supabase = await createClient();
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) redirect("/login?status=required");
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+  if (profileError || !profile) redirect("/account");
+
+  const { emailStatus } = await searchParams;
+
+  return (
+    <main className="min-h-screen bg-[#f5f2ea] px-5 py-8 text-[#20251f] sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-5xl">
+        <header className="flex items-center justify-between">
+          <Link href="/account" className="inline-flex items-center gap-3" aria-label="Nazaj na račun">
+            <span className="grid size-10 place-items-center rounded-full bg-[#263a31] font-serif text-lg text-[#f5f2ea]">5</span>
+            <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
+          </Link>
+          <Link href="/account" className="text-sm font-semibold text-[#294738] underline underline-offset-4">Nazaj na račun</Link>
+        </header>
+
+        <section className="mx-auto mt-10 max-w-3xl sm:mt-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8a6942]">Nastavitve</p>
+          <h1 className="mt-2 font-serif text-4xl">Uredi profil</h1>
+          <p className="mb-7 mt-3 text-sm leading-6 text-[#6c746a]">Posodobi podatke, s katerimi se prijavljaš v The Five Factions.</p>
+
+          {emailStatus === "confirmed" && (
+            <p role="status" className="mb-5 rounded-xl border border-[#c8d8c9] bg-[#edf5ed] px-4 py-3 text-sm leading-6 text-[#294738]">
+              Potrditev je uspela. Če si prejel_a še drugo potrditveno sporočilo, potrdi tudi tisto.
+            </p>
+          )}
+          {emailStatus === "invalid" && (
+            <p role="alert" className="mb-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-800">
+              Potrditvena povezava je napačna ali je potekla. Poskusi znova spremeniti e-poštni naslov.
+            </p>
+          )}
+
+          <ProfileForms email={user.email ?? ""} username={profile.username} />
+        </section>
+      </div>
+    </main>
+  );
+}
+
+export default function ProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ emailStatus?: string }>;
+}) {
+  return (
+    <Suspense fallback={<AuthLoading />}>
+      <ProfilePageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}

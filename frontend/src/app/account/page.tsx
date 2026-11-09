@@ -22,10 +22,14 @@ async function AccountPageContent({
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user) redirect("/login?status=required");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+
   const { confirmed, logout } = await searchParams;
-  const username = typeof user.user_metadata.username === "string"
-    ? user.user_metadata.username
-    : user.email;
+  const username = profile?.username ?? user.email;
 
   return (
     <main className="min-h-screen bg-[#f5f2ea] px-5 py-8 text-[#20251f] sm:px-8 sm:py-12">
@@ -49,6 +53,9 @@ async function AccountPageContent({
           <h1 className="mt-3 font-serif text-4xl">Živjo, {username}</h1>
           <p className="mt-4 text-sm leading-7 text-[#6c746a]">Prijavljen_a si z naslovom <span className="font-medium text-[#20251f]">{user.email}</span>.</p>
           <p className="mt-2 text-sm text-[#788075]">Osnovni račun je pripravljen. Tvoj pregled ločin in nalog bo dodan v naslednjih korakih.</p>
+          <Link href="/account/profile" className="mt-7 inline-flex rounded-full border border-[#263a31] px-5 py-3 text-sm font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">
+            Uredi profil
+          </Link>
         </section>
       </div>
     </main>
