@@ -56,6 +56,9 @@ async function AccountPageContent({
           <Link href="/account/profile" className="mt-7 inline-flex rounded-full border border-[#263a31] px-5 py-3 text-sm font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">
             Uredi profil
           </Link>
+          <Link href="/factions" className="ml-3 mt-7 inline-flex rounded-full bg-[#263a31] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#344d41]">
+            Spoznaj ločine
+          </Link>
         </section>
       </div>
     </main>
