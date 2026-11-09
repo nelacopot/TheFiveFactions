@@ -28,6 +28,21 @@ async function AccountPageContent({
     .eq("id", user.id)
     .single();
 
+  const { data: memberships } = await supabase
+    .from("user_factions")
+    .select("faction_id, rank_level, current_streak_weeks")
+    .eq("user_id", user.id)
+    .eq("membership_status", "active");
+  const factionIds = memberships?.map((membership) => membership.faction_id) ?? [];
+  const { data: factions } = factionIds.length
+    ? await supabase.from("factions").select("id, name, description").in("id", factionIds).eq("is_active", true)
+    : { data: [] };
+  const factionById = new Map((factions ?? []).map((faction) => [faction.id, faction]));
+  const activeFactions = (memberships ?? []).flatMap((membership) => {
+    const faction = factionById.get(membership.faction_id);
+    return faction ? [{ ...faction, rank: membership.rank_level, streak: membership.current_streak_weeks }] : [];
+  });
+
   const { confirmed, logout } = await searchParams;
   const username = profile?.username ?? user.email;
 
@@ -52,9 +67,29 @@ async function AccountPageContent({
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8a6942]">Moj račun</p>
           <h1 className="mt-3 font-serif text-4xl">Živjo, {username}</h1>
           <p className="mt-4 text-sm leading-7 text-[#6c746a]">Prijavljen_a si z naslovom <span className="font-medium text-[#20251f]">{user.email}</span>.</p>
-          <p className="mt-2 text-sm text-[#788075]">Osnovni račun je pripravljen. Tvoj pregled ločin in nalog bo dodan v naslednjih korakih.</p>
+          <p className="mt-2 text-sm text-[#788075]">Tvoje trenutno aktivne ločine in napredek.</p>
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <h2 className="font-serif text-2xl">Moje ločine</h2>
+            {activeFactions.length > 1 && <span className="rounded-full border border-[#d5c4a9] bg-[#f4ede1] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#725b3e]">Divergent</span>}
+          </div>
+          {activeFactions.length ? (
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {activeFactions.map((faction) => (
+                <li key={faction.id} className="rounded-xl border border-[#ded9ce] bg-white/70 p-4">
+                  <h3 className="font-serif text-xl">{faction.name}</h3>
+                  <p className="mt-1 text-sm leading-6 text-[#6c746a]">{faction.description}</p>
+                  <p className="mt-3 text-xs font-medium text-[#294738]">Rang {faction.rank} · Streak {faction.streak} ted.</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-3 text-sm text-[#788075]">Še nimaš izbrane ločine.</p>
+          )}
           <Link href="/account/profile" className="mt-7 inline-flex rounded-full border border-[#263a31] px-5 py-3 text-sm font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">
             Uredi profil
+          </Link>
+          <Link href="/account/profile#factions" className="ml-3 mt-7 inline-flex rounded-full border border-[#263a31] px-5 py-3 text-sm font-semibold text-[#263a31] transition hover:bg-[#263a31] hover:text-white">
+            Spremeni ločine
           </Link>
           <Link href="/factions" className="ml-3 mt-7 inline-flex rounded-full bg-[#263a31] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#344d41]">
             Spoznaj ločine
