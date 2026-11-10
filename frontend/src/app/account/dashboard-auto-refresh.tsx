@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ensureCurrentWeekTaskAssignmentsAction } from "./actions";
+import { dispatchMyNotificationEmailsAction, ensureCurrentWeekTaskAssignmentsAction } from "./actions";
 
 export function DashboardAutoRefresh() {
   const router = useRouter();
@@ -13,12 +13,17 @@ export function DashboardAutoRefresh() {
     if (!ensuredAssignments.current) {
       ensuredAssignments.current = true;
       void ensureCurrentWeekTaskAssignmentsAction().then((success) => {
-        if (mounted && success) router.refresh();
+        if (!mounted) return;
+        if (success) router.refresh();
+        void dispatchMyNotificationEmailsAction();
       });
     }
 
     const refreshWhenVisible = () => {
-      if (document.visibilityState === "visible") router.refresh();
+      if (document.visibilityState === "visible") {
+        router.refresh();
+        void dispatchMyNotificationEmailsAction();
+      }
     };
     const interval = window.setInterval(refreshWhenVisible, 60_000);
     window.addEventListener("focus", refreshWhenVisible);

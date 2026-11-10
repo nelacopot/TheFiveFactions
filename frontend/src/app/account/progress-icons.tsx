@@ -20,7 +20,7 @@ export function StreakFlame({ weeks }: StreakFlameProps) {
         <path d="M36 4c2 12-1 17-7 24-5 6-10 11-10 20a16 16 0 0 0 32 0c0-12-7-18-11-28-1 7-3 10-6 13 2-10 3-18 2-29Z" fill="#48244c" stroke="#d38aff" strokeWidth="2.5" />
         <path d="M32 36c0 5-7 8-7 14a8 8 0 0 0 16 0c0-5-3-8-5-12-.5 3-1 5-2 6 0-3 0-6-2-8Z" fill="#a955ca" />
       </svg>
-      <span className="relative font-serif text-xl font-semibold">{weeks}</span>
+      <span className="relative translate-y-2 font-serif text-xl font-semibold">{weeks}</span>
     </span>
   );
 }
