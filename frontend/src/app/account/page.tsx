@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { logoutAction } from "@/app/login/actions";
 import { AuthLoading } from "@/app/auth-loading";
+import { DashboardAutoRefresh } from "./dashboard-auto-refresh";
+import { RankShield, StreakFlame } from "./progress-icons";
 
 export const metadata: Metadata = {
   title: "Nadzorna plošča · The Five Factions",
@@ -62,6 +64,7 @@ async function AccountPageContent({
         </header>
 
         <section className="mx-auto mt-10 max-w-5xl sm:mt-14">
+          <DashboardAutoRefresh />
           {confirmed === "1" && <p role="status" className="mb-6 rounded-xl border border-[#51416f] bg-[#211b36] px-4 py-3 text-sm text-[#c9b9ff]">E-poštni naslov je potrjen. Tvoj račun je pripravljen.</p>}
           {logout === "failed" && <p role="alert" className="mb-6 rounded-xl border border-[#55344f] bg-[#271827] px-4 py-3 text-sm text-[#ffc1d8]">Odjava ni uspela. Poskusi znova.</p>}
           <div className="flex flex-col gap-7 rounded-3xl border border-[#302b4b] bg-gradient-to-br from-[#171a31] to-[#111326] p-7 shadow-[0_24px_70px_-48px_rgba(12,8,38,0.8)] sm:flex-row sm:items-end sm:justify-between sm:p-10">
@@ -106,14 +109,14 @@ async function AccountPageContent({
                       <span className="grid size-12 place-items-center rounded-full border border-[#62518d] bg-[#27203c] font-serif text-2xl text-[#d3c5ff]">{faction.name.slice(0, 1)}</span>
                     </div>
                     <p className="mt-4 min-h-12 text-sm leading-6 text-[#b9b4cf]">{faction.description}</p>
-                    <div className="mt-6 grid grid-cols-2 gap-3">
-                      <div className="rounded-xl border border-[#302b4b] bg-[#0e1122]/70 p-3">
-                        <p className="text-xs text-[#aaa5c0]">Rang</p>
-                        <p className="mt-1 font-serif text-xl text-[#e2d9ff]">{faction.rank}</p>
+                    <div className="mt-6 flex items-center gap-8">
+                      <div className="flex items-center gap-3">
+                        <RankShield rank={faction.rank} />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#aaa5c0]">Rang</span>
                       </div>
-                      <div className="rounded-xl border border-[#302b4b] bg-[#0e1122]/70 p-3">
-                        <p className="text-xs text-[#aaa5c0]">Streak</p>
-                        <p className="mt-1 font-serif text-xl text-[#e2d9ff]">{faction.streak} ted.</p>
+                      <div className="flex items-center gap-3">
+                        <StreakFlame weeks={faction.streak} />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#aaa5c0]">Streak</span>
                       </div>
                     </div>
                     <p className="mt-5 text-sm font-semibold text-[#c9b9ff] group-hover:text-white">Odpri ločino <span aria-hidden="true">→</span></p>
