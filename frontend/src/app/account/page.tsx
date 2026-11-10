@@ -8,7 +8,7 @@ import { logoutAction } from "@/app/login/actions";
 import { AuthLoading } from "@/app/auth-loading";
 
 export const metadata: Metadata = {
-  title: "Moj račun · The Five Factions",
+  title: "Nadzorna plošča · The Five Factions",
   robots: { index: false, follow: false },
 };
 
@@ -61,39 +61,77 @@ async function AccountPageContent({
           </form>
         </header>
 
-        <section className="mx-auto mt-14 max-w-3xl rounded-3xl border border-[#302b4b] bg-[#12162a] p-8 shadow-[0_24px_70px_-48px_rgba(32,37,31,0.4)] sm:mt-20 sm:p-12">
+        <section className="mx-auto mt-10 max-w-5xl sm:mt-14">
           {confirmed === "1" && <p role="status" className="mb-6 rounded-xl border border-[#51416f] bg-[#211b36] px-4 py-3 text-sm text-[#c9b9ff]">E-poštni naslov je potrjen. Tvoj račun je pripravljen.</p>}
           {logout === "failed" && <p role="alert" className="mb-6 rounded-xl border border-[#55344f] bg-[#271827] px-4 py-3 text-sm text-[#ffc1d8]">Odjava ni uspela. Poskusi znova.</p>}
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Moj račun</p>
-          <h1 className="mt-3 font-serif text-4xl">Živjo, {username}</h1>
-          <p className="mt-4 text-sm leading-7 text-[#b9b4cf]">Prijavljen_a si z naslovom <span className="font-medium text-[#f0edfa]">{user.email}</span>.</p>
-          <p className="mt-2 text-sm text-[#aaa5c0]">Tvoje trenutno aktivne ločine in napredek.</p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <h2 className="font-serif text-2xl">Moje ločine</h2>
-            {activeFactions.length > 1 && <span title="Trenutno razvijaš več kot eno vrlino." className="rounded-full border border-[#62518d] bg-[#27203c] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#d3c5ff]">Divergent</span>}
+          <div className="flex flex-col gap-7 rounded-3xl border border-[#302b4b] bg-gradient-to-br from-[#171a31] to-[#111326] p-7 shadow-[0_24px_70px_-48px_rgba(12,8,38,0.8)] sm:flex-row sm:items-end sm:justify-between sm:p-10">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Tvoj prostor za rast</p>
+              <h1 className="mt-3 font-serif text-4xl sm:text-5xl">Živjo, {username}</h1>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-[#b9b4cf]">Izberi eno od svojih poti in nadaljuj z razvijanjem vrlin, ki so ti pomembne.</p>
+              {user.email && <p className="mt-3 text-xs text-[#aaa5c0]">Prijavljen_a si kot {user.email}</p>}
+            </div>
+            <div className="flex gap-3">
+              <div className="min-w-28 rounded-2xl border border-[#302b4b] bg-[#0e1122]/70 p-4">
+                <p className="text-xs uppercase tracking-wider text-[#aaa5c0]">Aktivne ločine</p>
+                <p className="mt-2 font-serif text-3xl text-[#d3c5ff]">{activeFactions.length}</p>
+              </div>
+              <div className="min-w-28 rounded-2xl border border-[#302b4b] bg-[#0e1122]/70 p-4">
+                <p className="text-xs uppercase tracking-wider text-[#aaa5c0]">Tvoj status</p>
+                <p className="mt-2 font-serif text-xl text-[#d3c5ff]">{activeFactions.length > 1 ? "Divergent" : activeFactions.length === 1 ? "Član" : "Factionless"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="font-serif text-3xl">Moje ločine</h2>
+              <p className="mt-2 text-sm text-[#aaa5c0]">Odpri ločino za pregled ranga, streaka in tedenskih opravil.</p>
+            </div>
+            <div className="flex items-center gap-3">
+              {activeFactions.length > 1 && <span title="Trenutno razvijaš več kot eno vrlino." className="rounded-full border border-[#62518d] bg-[#27203c] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#d3c5ff]">Divergent</span>}
+              <Link href="/account/profile#factions" className="text-sm font-semibold text-[#c9b9ff] underline underline-offset-4">Uredi izbor</Link>
+            </div>
           </div>
           {activeFactions.length ? (
-            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            <ul className="mt-5 grid gap-4 sm:grid-cols-2">
               {activeFactions.map((faction) => (
-                <li key={faction.id} className="rounded-xl border border-[#302b4b] bg-[#171a31] p-4">
-                  <h3 className="font-serif text-xl">{faction.name}</h3>
-                  <p className="mt-1 text-sm leading-6 text-[#b9b4cf]">{faction.description}</p>
-                  <p className="mt-3 text-xs font-medium text-[#c9b9ff]">Rang {faction.rank} · Streak {faction.streak} ted.</p>
+                <li key={faction.id}>
+                  <Link href={`/account/factions/${faction.id}`} aria-label={`Odpri ločino ${faction.name}`} className="group block h-full rounded-2xl border border-[#302b4b] bg-[#171a31] p-6 transition hover:-translate-y-1 hover:border-[#7762be] hover:bg-[#1d1a38] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b9a5ff]">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#b9a5ff]">Moja pot</p>
+                        <h3 className="mt-2 font-serif text-3xl">{faction.name}</h3>
+                      </div>
+                      <span className="grid size-12 place-items-center rounded-full border border-[#62518d] bg-[#27203c] font-serif text-2xl text-[#d3c5ff]">{faction.name.slice(0, 1)}</span>
+                    </div>
+                    <p className="mt-4 min-h-12 text-sm leading-6 text-[#b9b4cf]">{faction.description}</p>
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="rounded-xl border border-[#302b4b] bg-[#0e1122]/70 p-3">
+                        <p className="text-xs text-[#aaa5c0]">Rang</p>
+                        <p className="mt-1 font-serif text-xl text-[#e2d9ff]">{faction.rank}</p>
+                      </div>
+                      <div className="rounded-xl border border-[#302b4b] bg-[#0e1122]/70 p-3">
+                        <p className="text-xs text-[#aaa5c0]">Streak</p>
+                        <p className="mt-1 font-serif text-xl text-[#e2d9ff]">{faction.streak} ted.</p>
+                      </div>
+                    </div>
+                    <p className="mt-5 text-sm font-semibold text-[#c9b9ff] group-hover:text-white">Odpri ločino <span aria-hidden="true">→</span></p>
+                  </Link>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="mt-3 text-sm text-[#aaa5c0]">Še nimaš izbrane ločine.</p>
+            <div className="mt-5 rounded-2xl border border-dashed border-[#62518d] bg-[#171a31] p-8 text-center">
+              <p className="font-serif text-2xl">Začni svojo pot</p>
+              <p className="mt-2 text-sm text-[#aaa5c0]">Izberi vsaj eno ločino, da se ti tukaj prikaže njen napredek.</p>
+              <Link href="/account/profile#factions" className="mt-5 inline-flex rounded-full bg-[#22203d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#423875]">Izberi ločine</Link>
+            </div>
           )}
-          <Link href="/account/profile" className="mt-7 inline-flex rounded-full border border-[#7762be] px-5 py-3 text-sm font-semibold text-[#c9b9ff] transition hover:bg-[#38305f] hover:text-white">
-            Uredi profil
-          </Link>
-          <Link href="/account/profile#factions" className="ml-3 mt-7 inline-flex rounded-full border border-[#7762be] px-5 py-3 text-sm font-semibold text-[#c9b9ff] transition hover:bg-[#38305f] hover:text-white">
-            Spremeni ločine
-          </Link>
-          <Link href="/factions" className="ml-3 mt-7 inline-flex rounded-full bg-[#22203d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#423875]">
-            Spoznaj ločine
-          </Link>
+          <div className="mt-8 flex flex-wrap gap-5 border-t border-[#302b4b] pt-6 text-sm">
+            <Link href="/account/profile" className="font-semibold text-[#c9b9ff] underline underline-offset-4">Uredi profil</Link>
+            <Link href="/factions" className="font-semibold text-[#c9b9ff] underline underline-offset-4">Spoznaj vse ločine</Link>
+          </div>
         </section>
       </div>
     </main>
