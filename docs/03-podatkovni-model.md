@@ -96,9 +96,10 @@ omejitev: unikatna kombinacija user_id, task_id in week_start_date, da ista nalo
 ### 8. Evidence
 - id (PK)
 - assignment_id (FK)
+- work_description
 - reflection_text
 - file_path
-- status
+- status ... awaiting_review, approved ali rejected
 - submitted_at
 
 Opomba: file_path je zato, ker bom v bazi hranila le URL do fotografije ali datoteke, hranile se bodo v datotečni shrambi, da ne preobremenijo baze
