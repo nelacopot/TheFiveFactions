@@ -7,6 +7,7 @@ import { AuthLoading } from "@/app/auth-loading";
 import { AccountNavigation } from "@/app/account/account-navigation";
 import { ProfileForms } from "./profile-forms";
 import { FactionSelectionForm } from "./faction-selection-form";
+import { AccountDeletionForm } from "./account-deletion-form";
 
 export const metadata: Metadata = {
   title: "Urejanje profila · The Five Factions",
@@ -65,6 +66,7 @@ async function ProfilePageContent({
               selectedFactionIds={memberships.map((membership) => membership.faction_id)}
             />
             <ProfileForms email={user.email ?? ""} username={profile.username} />
+            <AccountDeletionForm />
           </div>
         </section>
       </div>
