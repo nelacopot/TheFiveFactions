@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
 import { DashboardAutoRefresh } from "@/app/account/dashboard-auto-refresh";
 import { RankShield, StreakFlame } from "@/app/account/progress-icons";
+import { WeeklyTaskList } from "@/app/account/weekly-task-list";
+import { getCurrentWeekTasks } from "@/lib/tasks";
 
 async function FactionDashboardContent({
   params,
@@ -37,6 +39,7 @@ async function FactionDashboardContent({
     .eq("is_active", true)
     .maybeSingle();
   if (factionError || !faction) notFound();
+  const weeklyTasks = await getCurrentWeekTasks(supabase, user.id, factionId);
 
   return (
     <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
@@ -79,11 +82,10 @@ async function FactionDashboardContent({
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c3a8ff]">Ta teden</p>
             <h2 className="mt-2 font-serif text-3xl">Opravila</h2>
           </div>
-          <div className="mt-6 rounded-2xl border border-dashed border-[#62518d] bg-[#171a31] px-5 py-10 text-center">
-            <span className="mx-auto grid size-12 place-items-center rounded-full bg-[#27203c] font-serif text-2xl text-[#d3c5ff]" aria-hidden="true">✦</span>
-            <p className="mt-4 font-serif text-xl">Opravila prihajajo</p>
-            <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#aaa5c0]">Tedenska opravila za ločino {faction.name} bodo prikazana tukaj, ko bo na voljo njihovo dodeljevanje.</p>
-          </div>
+          <WeeklyTaskList
+            tasks={weeklyTasks}
+            emptyMessage={`Za ločino ${faction.name} še ni dodeljenih opravil za ta teden.`}
+          />
         </section>
       </div>
     </main>
