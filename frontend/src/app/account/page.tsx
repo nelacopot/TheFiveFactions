@@ -4,8 +4,8 @@ import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { logoutAction } from "@/app/login/actions";
 import { AuthLoading } from "@/app/auth-loading";
+import { AccountNavigation } from "./account-navigation";
 import { DashboardAutoRefresh } from "./dashboard-auto-refresh";
 import { RankShield, StreakFlame } from "./progress-icons";
 import { WeeklyTaskList } from "./weekly-task-list";
@@ -60,17 +60,7 @@ async function AccountPageContent({
   return (
     <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-3" aria-label="Začetna stran">
-            <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
-            <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
-          </Link>
-          <form action={logoutAction}>
-            <button type="submit" className="rounded-full border border-[#7762be] px-4 py-2 text-xs font-semibold text-[#c9b9ff] transition hover:bg-[#38305f] hover:text-white">
-              Odjava
-            </button>
-          </form>
-        </header>
+        <AccountNavigation />
 
         <section className="mx-auto mt-10 max-w-5xl sm:mt-14">
           <DashboardAutoRefresh />
