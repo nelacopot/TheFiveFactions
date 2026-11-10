@@ -6,8 +6,16 @@ import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
 import { DashboardAutoRefresh } from "@/app/account/dashboard-auto-refresh";
 import { RankShield, StreakFlame } from "@/app/account/progress-icons";
-import { WeeklyTaskList } from "@/app/account/weekly-task-list";
-import { getCurrentWeekTasks } from "@/lib/tasks";
+import { EvidenceForm } from "@/app/account/evidence-form";
+import { formatTaskDueDate, getCurrentWeekTasks, taskStatusLabels, type CurrentWeekTask } from "@/lib/tasks";
+
+const taskStatusColors: Record<CurrentWeekTask["status"], string> = {
+  to_do: "border-[#62518d] bg-[#27203c] text-[#d3c5ff]",
+  in_progress: "border-[#354f86] bg-[#172341] text-[#c0d4ff]",
+  awaiting_review: "border-[#74603b] bg-[#2a2418] text-[#f2d49e]",
+  done: "border-[#3e6659] bg-[#172a25] text-[#b9eedb]",
+  rejected: "border-[#704359] bg-[#2d1b28] text-[#ffc1d8]",
+};
 
 async function FactionDashboardContent({
   params,
@@ -81,11 +89,47 @@ async function FactionDashboardContent({
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c3a8ff]">Ta teden</p>
             <h2 className="mt-2 font-serif text-3xl">Opravila</h2>
+            <p className="mt-2 text-sm text-[#aaa5c0]">Klikni na opravilo, da odpreš podrobnosti in obrazec za dokazilo.</p>
           </div>
-          <WeeklyTaskList
-            tasks={weeklyTasks}
-            emptyMessage={`Za ločino ${faction.name} še ni dodeljenih opravil za ta teden.`}
-          />
+          {weeklyTasks.length === 0 ? (
+            <p className="mt-3 rounded-xl border border-dashed border-[#62518d] px-4 py-5 text-sm text-[#aaa5c0]">
+              Za ločino {faction.name} še ni dodeljenih opravil za ta teden.
+            </p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {weeklyTasks.map((task) => {
+                const canSubmit = ["to_do", "in_progress", "rejected"].includes(task.status);
+                return (
+                  <li key={task.id}>
+                    <details className="group rounded-2xl border border-[#302b4b] bg-[#0e1122]/70 open:border-[#62518d]">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 marker:hidden [&::-webkit-details-marker]:hidden">
+                        <span className="min-w-0">
+                          <span className="block font-serif text-xl text-[#e2d9ff]">{task.title}</span>
+                          <span className="mt-1 block text-xs text-[#aaa5c0]">Rok: {formatTaskDueDate(task.dueDate)}</span>
+                        </span>
+                        <span className="flex shrink-0 items-center gap-3">
+                          <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${taskStatusColors[task.status]}`}>
+                            {taskStatusLabels[task.status]}
+                          </span>
+                          <span aria-hidden="true" className="text-lg text-[#c9b9ff] transition-transform group-open:rotate-180">⌄</span>
+                        </span>
+                      </summary>
+                      <div className="border-t border-[#302b4b] px-5 pb-5 pt-4">
+                        <p className="text-sm leading-6 text-[#b9b4cf]">{task.description}</p>
+                        {canSubmit ? (
+                          <EvidenceForm assignmentId={task.id} />
+                        ) : task.status === "awaiting_review" ? (
+                          <p className="mt-5 text-sm text-[#f2d49e]">Dokazilo je oddano in čaka na preverjanje.</p>
+                        ) : task.status === "done" ? (
+                          <p className="mt-5 text-sm text-[#b9eedb]">Dokazilo je potrjeno.</p>
+                        ) : null}
+                      </div>
+                    </details>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </section>
       </div>
     </main>
