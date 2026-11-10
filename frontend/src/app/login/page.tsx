@@ -5,8 +5,8 @@ import { LoginForm } from "./login-form";
 import { AuthLoading } from "@/app/auth-loading";
 
 export const metadata: Metadata = {
-  title: "Prijava · The Five Factions",
-  description: "Prijavi se v svoj račun The Five Factions.",
+  title: "The Five Factions",
+  description: "Prijavi se v svoj račun",
 };
 
 async function LoginPageContent({
@@ -24,16 +24,17 @@ async function LoginPageContent({
       : undefined;
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#090b18] px-5 py-12 text-[#f0edfa]">
-      <section className="w-full max-w-md rounded-3xl border border-[#302b4b] bg-[#12162a] p-8 shadow-[0_24px_70px_-48px_rgba(32,37,31,0.4)] sm:p-10">
-        <Link href="/" className="inline-flex items-center gap-3" aria-label="Nazaj na začetno stran">
-          <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
-          <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
-        </Link>
-        <p className="mt-9 text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Dobrodošel_a nazaj</p>
-        <h1 className="mt-2 font-serif text-3xl">Prijava</h1>
-        <p className="mb-7 mt-2 text-sm leading-6 text-[#b9b4cf]">Vnesi e-poštni naslov in geslo, s katerima si ustvaril_a račun.</p>
-        <LoginForm notice={notice} />
+    <main className="retro-site grid min-h-screen place-items-center">
+      <section className="retro-window w-full max-w-md p-4 sm:p-6">
+        <header className="retro-titlebar -mx-4 -mt-4 mb-4 flex items-center justify-between sm:-mx-6 sm:-mt-6">
+          <Link href="/" className="text-white no-underline">5 · THE FIVE FACTIONS</Link>
+          <Link href="/" className="retro-nav-link">Domov</Link>
+        </header>
+        <div className="retro-panel p-4">
+          <h1 className="border-b border-dotted border-[#9279b2] pb-2 text-2xl">Prijava</h1>
+          <p className="mb-5 mt-3 text-sm">Vnesi e-poštni naslov in geslo, s katerima si ustvaril_a račun.</p>
+          <LoginForm notice={notice} />
+        </div>
       </section>
     </main>
   );

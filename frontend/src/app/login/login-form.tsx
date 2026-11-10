@@ -13,18 +13,18 @@ export function LoginForm({ notice }: { notice?: string }) {
   return (
     <form action={formAction} className="space-y-5">
       {notice && (
-        <p role="status" className="rounded-xl border border-[#51416f] bg-[#211b36] px-4 py-3 text-sm leading-6 text-[#c9b9ff]">
+        <p role="status" className="retro-paper px-3 py-2 text-sm leading-6">
           {notice}
         </p>
       )}
       {state.message && (
-        <p role="alert" aria-live="polite" className="rounded-xl border border-[#55344f] bg-[#271827] px-4 py-3 text-sm leading-6 text-[#ffc1d8]">
+        <p role="alert" aria-live="polite" className="border-2 border-[#c07d98] bg-[#3b2030] px-3 py-2 text-sm leading-6 text-[#ffd3e2]">
           {state.message}
         </p>
       )}
 
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm font-medium">E-poštni naslov</label>
+        <label htmlFor="email" className="mb-2 block font-mono text-xs font-bold">E-poštni naslov</label>
         <input
           id="email"
           name="email"
@@ -32,20 +32,20 @@ export function LoginForm({ notice }: { notice?: string }) {
           autoComplete="email"
           required
           maxLength={254}
-          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25"
+          className="retro-input"
           placeholder="ime@primer.si"
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="mb-2 block text-sm font-medium">Geslo</label>
+        <label htmlFor="password" className="mb-2 block font-mono text-xs font-bold">Geslo</label>
         <input
           id="password"
           name="password"
           type="password"
           autoComplete="current-password"
           required
-          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25"
+          className="retro-input"
           placeholder="Vnesi geslo"
         />
       </div>
@@ -53,13 +53,13 @@ export function LoginForm({ notice }: { notice?: string }) {
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-full bg-[#22203d] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#423875] disabled:cursor-wait disabled:opacity-65"
+        className="retro-button w-full disabled:cursor-wait disabled:opacity-65"
       >
         {isPending ? "Prijavljam …" : "Prijava"}
       </button>
 
-      <p className="text-center text-sm text-[#b9b4cf]">
-        Še nimaš računa? <Link href="/register" className="font-semibold text-[#c9b9ff] underline underline-offset-4">Registracija</Link>
+      <p className="text-center font-mono text-xs">
+        Še nimaš računa? <Link href="/register">Registracija</Link>
       </p>
     </form>
   );

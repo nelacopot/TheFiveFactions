@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
 import { AccountNavigation } from "@/app/account/account-navigation";
 import { ReviewDecisionForm } from "@/app/account/review-decision-form";
+import { FactionIcon } from "@/components/faction-icon";
 
 export const metadata: Metadata = {
   title: "Preverjanje dokazil · The Five Factions",
@@ -93,66 +94,66 @@ async function ReviewsPageContent({
   const queryFailed = evidenceError || assignmentsError || tasksError || profilesError || factionsError;
 
   return (
-    <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
-      <div className="mx-auto max-w-5xl">
+    <main className="retro-site min-h-screen">
+      <div className="retro-window p-3 sm:p-5">
         <AccountNavigation active="reviews" />
 
-        <section className="mt-10 sm:mt-14">
-          {result === "approved" && <p role="status" className="mb-6 rounded-xl border border-[#3e6659] bg-[#172a25] px-4 py-3 text-sm text-[#b9eedb]">Dokazilo si potrdil_a; naloga je označena kot opravljena.</p>}
-          {result === "rejected" && <p role="status" className="mb-6 rounded-xl border border-[#74603b] bg-[#2a2418] px-4 py-3 text-sm text-[#f2d49e]">Dokazilo si zavrnil_a. Odločitev je shranjena.</p>}
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Skupnost</p>
-          <h1 className="mt-2 font-serif text-4xl sm:text-5xl">Preverjanje dokazil</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#aaa5c0]">Preglej dokazila drugih članov. Prvo oddano odločitev shrani sistem, nato dokazilo izgine s seznama.</p>
+        <section className="mt-5">
+          {result === "approved" && <p role="status" className="retro-paper mb-4 px-3 py-2 text-sm">Dokazilo si potrdil_a; naloga je označena kot opravljena.</p>}
+          {result === "rejected" && <p role="status" className="mb-4 border-2 border-[#b7a568] bg-[#332d1f] px-3 py-2 text-sm text-[#f4e5b1]">Dokazilo si zavrnil_a. Odločitev je shranjena.</p>}
+          <h1 className="border-b-2 border-double border-[#9279b2] pb-2 text-3xl">Preverjanje dokazil</h1>
 
           {queryFailed ? (
-            <p role="alert" className="mt-8 rounded-2xl border border-[#704359] bg-[#2d1b28] p-6 text-sm text-[#ffc1d8]">
+            <p role="alert" className="mt-4 border-2 border-[#c07d98] bg-[#3b2030] p-4 text-sm text-[#ffd3e2]">
               Seznama dokazil trenutno ni mogoče naložiti. Poskusi znova.
             </p>
           ) : resolved.length === 0 ? (
-            <div className="mt-8 rounded-2xl border border-dashed border-[#62518d] bg-[#171a31] p-8 text-center">
-              <p className="font-serif text-2xl">Trenutno ni dokazil za preverjanje</p>
-              <p className="mt-2 text-sm text-[#aaa5c0]">Ko drugi člani oddajo dokazila, se bodo prikazala tukaj.</p>
+            <div className="retro-panel mt-4 p-4">
+              <p className="font-serif text-xl">Ni čakajočih dokazil.</p>
             </div>
           ) : (
-            <div className="mt-8 space-y-5">
+            <div className="mt-4 space-y-4">
               {resolved.map((item) => {
                 const imageUrl = imageByEvidenceId.get(item.id);
                 return (
-                  <article key={item.id} className="rounded-3xl border border-[#302b4b] bg-gradient-to-br from-[#171a31] to-[#111326] p-6 shadow-[0_24px_70px_-48px_rgba(12,8,38,0.8)] sm:p-8">
+                  <article key={item.id} className="retro-panel p-4 sm:p-5">
                     <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#b9a5ff]">{item.factionName}</p>
-                        <h2 className="mt-2 font-serif text-2xl sm:text-3xl">{item.task.title}</h2>
+                      <div className="flex items-center gap-3">
+                        <FactionIcon name={item.factionName} size={58} />
+                        <div>
+                          <p className="font-mono text-[10px] font-bold uppercase text-[#e7ed86]">{item.factionName}</p>
+                          <h2 className="mt-1 text-xl sm:text-2xl">{item.task.title}</h2>
+                        </div>
                       </div>
-                      <p className="rounded-full border border-[#62518d] bg-[#27203c] px-3 py-1.5 text-xs font-semibold text-[#d3c5ff]">Čaka na preverjanje</p>
+                      <p className="border border-[#b7a568] bg-[#332d1f] px-2 py-1 font-mono text-[10px] font-bold uppercase text-[#f4e5b1]">Čaka na preverjanje</p>
                     </div>
 
-                    <div className="mt-5 grid gap-2 text-sm text-[#aaa5c0] sm:grid-cols-2">
+                    <div className="mt-4 grid gap-2 border-y border-dotted border-[#8974a8] py-2 font-mono text-xs text-[#d3c4e5] sm:grid-cols-2">
                       <p>Oddal_a: <span className="font-medium text-[#e2d9ff]">{item.username}</span></p>
                       <p>Čas oddaje: <span className="font-medium text-[#e2d9ff]">{submittedDate(item.submitted_at)}</span></p>
                     </div>
 
-                    <div className="mt-5 rounded-2xl border border-[#302b4b] bg-[#0e1122]/70 p-5">
-                      <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b9a5ff]">Opis naloge</h3>
-                      <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#b9b4cf]">{item.task.description}</p>
+                    <div className="retro-paper mt-4 p-3">
+                      <h3 className="font-mono text-xs uppercase">Opis naloge</h3>
+                      <p className="mt-2 whitespace-pre-line text-sm leading-6">{item.task.description}</p>
                     </div>
 
                     {item.work_description && (
                       <div className="mt-4">
-                        <h3 className="text-sm font-semibold text-[#d3c5ff]">Opis opravljanja</h3>
-                        <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#e2d9f5]">{item.work_description}</p>
+                        <h3 className="font-mono text-xs font-bold uppercase text-[#e7ed86]">Opis opravljanja</h3>
+                        <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#eee6f6]">{item.work_description}</p>
                       </div>
                     )}
                     {item.reflection_text && (
                       <div className="mt-4">
-                        <h3 className="text-sm font-semibold text-[#d3c5ff]">Osebni razmislek</h3>
-                        <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#e2d9f5]">{item.reflection_text}</p>
+                        <h3 className="font-mono text-xs font-bold uppercase text-[#e7ed86]">Osebni razmislek</h3>
+                        <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#eee6f6]">{item.reflection_text}</p>
                       </div>
                     )}
                     {imageUrl && (
-                      <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="mt-5 block w-fit rounded-xl outline-offset-4 focus-visible:outline-2 focus-visible:outline-[#b9a5ff]">
-                        <Image src={imageUrl} alt={`Fotografija dokazila za nalogo ${item.task.title}`} width={1200} height={900} unoptimized className="max-h-[28rem] w-auto max-w-full rounded-xl border border-[#40395e] object-contain" />
-                        <span className="mt-2 block text-xs text-[#b9a5ff]">Odpri fotografijo v polni velikosti</span>
+                      <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="mt-4 block w-fit outline-offset-4 focus-visible:outline-2 focus-visible:outline-[#e7ed86]">
+                        <Image src={imageUrl} alt={`Fotografija dokazila za nalogo ${item.task.title}`} width={1200} height={900} unoptimized className="max-h-[28rem] w-auto max-w-full border-4 border-white object-contain" />
+                        <span className="mt-2 block font-mono text-[10px]">Odpri fotografijo v polni velikosti</span>
                       </a>
                     )}
 
