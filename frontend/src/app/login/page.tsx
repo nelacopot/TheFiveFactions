@@ -17,6 +17,8 @@ async function LoginPageContent({
   const { status } = await searchParams;
   const notice = status === "signed-out"
     ? "Uspešno si se odjavil_a."
+    : status === "account-deleted"
+      ? "Tvoj račun in povezani podatki so bili izbrisani."
     : status === "required"
       ? "Za dostop do računa se prijavi."
       : undefined;
