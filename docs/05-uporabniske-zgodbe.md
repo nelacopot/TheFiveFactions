@@ -99,7 +99,7 @@ Kot član ločine želim vsak teden prejeti seznam nalog, prilagojenim mojim izb
 
 **Acceptance criteria**
 
-1. Uporabniku sistem dodeli tedenske naloge glede na njegove izbrane (aktivne) ločine in njegov trenutni rang.
+1. Za vsako aktivno ločino sistem izbere tri naključne aktivne naloge iz težavnostne skupine njegovega trenutnega ranga (1–3, 4–7 ali 8–10). Tedenske dodelitve se ustvarijo ob začetku tedna po času `Europe/Ljubljana`; novo članstvo dobi naloge ob naslednjem obisku nadzorne plošče.
 2. Uporabnik lahko pregleda seznam svojih nalog za trenutni teden, vključno z opisom, pripadajočo ločino, rokom in trenutnim statusom (To-Do, In Progress, Awaiting Review, Done ali Rejected).
 3. Za istega uporabnika v istem tednu niso dodeljene iste naloge več kot enkrat.
 4. Uporabnik dobi obvestilo (notification) na elektronsko pošto, ki jo je navedel ob prijavi, ko so na voljo nove tedenske naloge ali ko se je spremenil status njegovega oddanega dokazila (torej da je bilo dokazilo potrjeno ali zavrnjeno).

@@ -8,6 +8,8 @@ import { logoutAction } from "@/app/login/actions";
 import { AuthLoading } from "@/app/auth-loading";
 import { DashboardAutoRefresh } from "./dashboard-auto-refresh";
 import { RankShield, StreakFlame } from "./progress-icons";
+import { WeeklyTaskList } from "./weekly-task-list";
+import { getCurrentWeekTasks } from "@/lib/tasks";
 
 export const metadata: Metadata = {
   title: "Nadzorna plošča · The Five Factions",
@@ -44,6 +46,13 @@ async function AccountPageContent({
     const faction = factionById.get(membership.faction_id);
     return faction ? [{ ...faction, rank: membership.rank_level, streak: membership.current_streak_weeks }] : [];
   });
+  const weeklyTasks = await getCurrentWeekTasks(supabase, user.id);
+  const tasksByFaction = new Map<number, typeof weeklyTasks>();
+  for (const task of weeklyTasks) {
+    const factionTasks = tasksByFaction.get(task.factionId) ?? [];
+    factionTasks.push(task);
+    tasksByFaction.set(task.factionId, factionTasks);
+  }
 
   const { confirmed, logout } = await searchParams;
   const username = profile?.username ?? user.email;
@@ -118,6 +127,16 @@ async function AccountPageContent({
                         <StreakFlame weeks={faction.streak} />
                         <span className="text-xs font-semibold uppercase tracking-wider text-[#aaa5c0]">Streak</span>
                       </div>
+                    </div>
+                    <div className="mt-6 border-t border-[#302b4b] pt-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <h4 className="font-serif text-xl">Opravila ta teden</h4>
+                        <span className="text-xs text-[#aaa5c0]">{tasksByFaction.get(faction.id)?.length ?? 0} / 3</span>
+                      </div>
+                      <WeeklyTaskList
+                        tasks={tasksByFaction.get(faction.id) ?? []}
+                        emptyMessage="Za to ločino še ni dodeljenih opravil za ta teden."
+                      />
                     </div>
                     <p className="mt-5 text-sm font-semibold text-[#c9b9ff] group-hover:text-white">Odpri ločino <span aria-hidden="true">→</span></p>
                   </Link>
