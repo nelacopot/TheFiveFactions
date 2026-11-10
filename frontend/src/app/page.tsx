@@ -4,14 +4,9 @@ import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
+import { FactionIcon } from "@/components/faction-icon";
 
-const factions = [
-  { name: "Altruism", virtue: "Care for others", mark: "A" },
-  { name: "Intellect", virtue: "Curiosity and learning", mark: "I" },
-  { name: "Grit", virtue: "Courage and discipline", mark: "G" },
-  { name: "Harmony", virtue: "Balance and kindness", mark: "H" },
-  { name: "Verity", virtue: "Honesty and clarity", mark: "V" },
-];
+const factions = ["Altruism", "Intellect", "Grit", "Harmony", "Verity"];
 
 async function HomeContent() {
   await connection();
@@ -20,42 +15,52 @@ async function HomeContent() {
   if (user) redirect("/account");
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#090b18] text-[#f0edfa]">
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-7 sm:px-10">
-        <Link href="/" className="flex items-center gap-3" aria-label="The Five Factions home">
-          <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
-          <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <span className="hidden text-xs uppercase tracking-[0.2em] text-[#b9b4cf] sm:block">A practice in becoming</span>
-          <Link href="/login" className="text-xs font-semibold text-[#c9b9ff] underline underline-offset-4">Prijava</Link>
-          <Link href="/register" className="rounded-full border border-[#7762be] px-4 py-2 text-xs font-semibold text-[#c9b9ff] transition hover:bg-[#38305f] hover:text-white">Ustvari račun</Link>
-        </div>
-      </header>
-
-      <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 pb-20 pt-12 sm:px-10 md:grid-cols-[1.1fr_0.9fr] md:pb-32 md:pt-20">
-        <div>
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#c3a8ff]">Small actions. Lasting virtues.</p>
-          <h1 className="max-w-2xl font-serif text-5xl leading-[1.05] tracking-tight sm:text-7xl">Become who you choose to be.</h1>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-[#b9b4cf]">Build the qualities that matter to you through thoughtful weekly challenges, shared accountability, and progress you can see.</p>
-          <Link href="/factions" className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#22203d] px-6 py-3.5 text-sm font-medium text-white transition hover:bg-[#423875]">
-            Explore the factions <span aria-hidden="true">↗</span>
+    <main className="retro-site min-h-screen">
+      <div className="retro-window">
+        <header className="retro-titlebar flex flex-wrap items-center justify-between gap-3">
+          <Link href="/" className="no-underline text-white" aria-label="The Five Factions — začetna stran">
+            <span className="mr-2 inline-grid size-7 place-items-center border-2 border-white bg-[#523477] font-serif text-lg">5</span>
+            THE FIVE FACTIONS
           </Link>
-          <p className="mt-5 text-xs text-[#aaa5c0]">Your path can hold more than one virtue.</p>
+          <nav aria-label="Glavni meni" className="flex flex-wrap items-center gap-2">
+            <Link href="/factions" className="retro-nav-link">Ločine</Link>
+            <Link href="/login" className="retro-nav-link">Prijava</Link>
+            <Link href="/register" className="retro-nav-link">Registracija</Link>
+          </nav>
+        </header>
+
+        <div className="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="retro-panel p-5 sm:p-7">
+            <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">The Five Factions</h1>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link href="/factions" className="retro-button">Seznam ločin</Link>
+              <Link href="/register" className="retro-button">Ustvari račun</Link>
+            </div>
+          </section>
+
+          <aside className="retro-paper p-4 sm:p-5">
+            <h2 className="border-b-2 border-double border-[#8d76a8] pb-2 text-xl">Ločine</h2>
+            <ul className="old-link-list mt-2 grid grid-cols-2 gap-x-4">
+              {factions.map((name) => (
+                <li key={name}>
+                  <Link href="/factions" className="faction-index-link flex items-center gap-2 font-mono text-sm font-bold text-[#40275b]">
+                    <FactionIcon name={name} size={50} />
+                    {name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 border-t border-dotted border-[#8d76a8] pt-3 font-mono text-xs text-[#59496a]">
+              <Link href="/factions" className="text-[#40275b]">Odpri opise ločin »</Link>
+            </p>
+          </aside>
         </div>
 
-        <div id="factions" className="grid grid-cols-2 gap-3 sm:gap-4">
-          {factions.map((faction, index) => (
-            <article key={faction.name} className={`min-h-40 rounded-2xl border border-[#302b4b] bg-[#12162a] p-5 sm:min-h-48 sm:p-7 ${index === 4 ? "col-span-2 sm:col-span-1" : ""}`}>
-              <span className="font-serif text-3xl text-[#c3a8ff]">{faction.mark}</span>
-              <h2 className="mt-5 font-serif text-2xl">{faction.name}</h2>
-              <p className="mt-1 text-sm text-[#aaa5c0]">{faction.virtue}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <footer className="border-t border-[#302b4b] px-6 py-5 text-center text-xs tracking-wide text-[#aaa5c0]">The Five Factions · Find your next small step</footer>
+        <footer className="border-t-2 border-double border-[#8e76ae] px-4 py-3 text-center font-mono text-[11px] text-[#d5c8e8]">
+          <Link href="/login">Prijava</Link> · <Link href="/register">Registracija</Link>
+        </footer>
+      </div>
     </main>
   );
 }

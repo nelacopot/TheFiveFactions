@@ -38,8 +38,8 @@ export function RegistrationForm() {
           aria-live="polite"
           className={`rounded-xl border px-4 py-3 text-sm leading-6 ${
             state.status === "error"
-              ? "border-[#55344f] bg-[#271827] text-[#ffc1d8]"
-              : "border-[#51416f] bg-[#211b36] text-[#c9b9ff]"
+            ? "border-[#c07d98] bg-[#3b2030] text-[#ffd3e2]"
+              : "retro-paper"
           }`}
         >
           {state.message}
@@ -47,7 +47,7 @@ export function RegistrationForm() {
       )}
 
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm font-medium">E-poštni naslov</label>
+        <label htmlFor="email" className="mb-2 block font-mono text-xs font-bold">E-poštni naslov</label>
         <input
           id="email"
           name="email"
@@ -57,14 +57,14 @@ export function RegistrationForm() {
           maxLength={254}
           aria-invalid={Boolean(clientErrors.email || state.fieldErrors.email)}
           aria-describedby={clientErrors.email || state.fieldErrors.email ? "email-error" : undefined}
-          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25 aria-[invalid=true]:border-[#b96787]"
+          className="retro-input aria-[invalid=true]:border-[#b96787]"
           placeholder="ime@primer.si"
         />
         {(clientErrors.email || state.fieldErrors.email) && <p id="email-error" className="mt-2 text-sm text-[#ffb6d0]">{clientErrors.email ?? state.fieldErrors.email}</p>}
       </div>
 
       <div>
-        <label htmlFor="username" className="mb-2 block text-sm font-medium">Uporabniško ime</label>
+        <label htmlFor="username" className="mb-2 block font-mono text-xs font-bold">Uporabniško ime</label>
         <input
           id="username"
           name="username"
@@ -76,16 +76,16 @@ export function RegistrationForm() {
           pattern="[A-Za-z0-9_]+"
           aria-invalid={Boolean(clientErrors.username || state.fieldErrors.username)}
           aria-describedby={clientErrors.username || state.fieldErrors.username ? "username-error" : "username-help"}
-          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25 aria-[invalid=true]:border-[#b96787]"
+          className="retro-input aria-[invalid=true]:border-[#b96787]"
           placeholder="npr. ana_123"
         />
-        <p id={clientErrors.username || state.fieldErrors.username ? "username-error" : "username-help"} className={`mt-2 text-sm ${clientErrors.username || state.fieldErrors.username ? "text-[#ffb6d0]" : "text-[#aaa5c0]"}`}>
+        <p id={clientErrors.username || state.fieldErrors.username ? "username-error" : "username-help"} className={`mt-2 font-mono text-[10px] ${clientErrors.username || state.fieldErrors.username ? "text-[#ffb6d0]" : "text-[#d3c4e5]"}`}>
           {clientErrors.username ?? state.fieldErrors.username ?? "3–30 znakov: črke, številke in podčrtaj."}
         </p>
       </div>
 
       <div>
-        <label htmlFor="password" className="mb-2 block text-sm font-medium">Geslo</label>
+        <label htmlFor="password" className="mb-2 block font-mono text-xs font-bold">Geslo</label>
         <input
           id="password"
           name="password"
@@ -96,24 +96,24 @@ export function RegistrationForm() {
           maxLength={20}
           aria-invalid={Boolean(clientErrors.password || state.fieldErrors.password)}
           aria-describedby={clientErrors.password || state.fieldErrors.password ? "password-error" : "password-help"}
-          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25 aria-[invalid=true]:border-[#b96787]"
+          className="retro-input aria-[invalid=true]:border-[#b96787]"
           placeholder="Ustvari močno geslo"
         />
-        <p id={clientErrors.password || state.fieldErrors.password ? "password-error" : "password-help"} className={`mt-2 text-sm leading-6 ${clientErrors.password || state.fieldErrors.password ? "text-[#ffb6d0]" : "text-[#aaa5c0]"}`}>
-          {clientErrors.password ?? state.fieldErrors.password ?? "8–20 znakov, z veliko in malo črko, številko ter posebnim znakom (~ ! @ # $ ^ * _ { } | : ? ` - = [ ] ; ’ , . /)."}
+        <p id={clientErrors.password || state.fieldErrors.password ? "password-error" : "password-help"} className={`mt-2 font-mono text-[10px] leading-5 ${clientErrors.password || state.fieldErrors.password ? "text-[#ffb6d0]" : "text-[#d3c4e5]"}`}>
+          {clientErrors.password ?? state.fieldErrors.password ?? "8–20 znakov, z veliko in malo črko, številko ter posebnim znakom"}
         </p>
       </div>
 
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-full bg-[#22203d] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#423875] disabled:cursor-wait disabled:opacity-65"
+        className="retro-button w-full disabled:cursor-wait disabled:opacity-65"
       >
         {isPending ? "Ustvarjam račun …" : "Ustvari račun"}
       </button>
 
-      <p className="text-center text-sm text-[#b9b4cf]">
-        Že imaš račun? <Link href="/login" className="font-semibold text-[#c9b9ff] underline underline-offset-4">Prijava</Link>
+      <p className="text-center font-mono text-xs">
+        Že imaš račun? <Link href="/login">Prijava</Link>
       </p>
     </form>
   );

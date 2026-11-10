@@ -17,20 +17,23 @@ async function RegistrationConfirmedContent({
   const confirmed = status === "success";
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#090b18] px-5 py-12 text-[#f0edfa]">
-      <section className="w-full max-w-lg rounded-3xl border border-[#302b4b] bg-[#12162a] p-8 text-center shadow-[0_24px_70px_-48px_rgba(32,37,31,0.4)] sm:p-12">
-        <span className={`mx-auto grid size-14 place-items-center rounded-full font-serif text-2xl ${confirmed ? "bg-[#2a2344] text-[#c9b9ff]" : "bg-[#271827] text-[#ffc1d8]"}`} aria-hidden="true">
+    <main className="retro-site grid place-items-center px-4 py-10">
+      <section className="retro-window w-full max-w-xl">
+        <div className="retro-titlebar"><span>the-five-factions.exe</span><span aria-hidden="true">_ □ ×</span></div>
+        <div className="retro-panel p-6 text-center sm:p-10">
+        <span className={`mx-auto grid size-14 place-items-center border-2 border-white font-serif text-2xl ${confirmed ? "bg-[#e5f3df] text-[#25532f]" : "bg-[#f7e3e5] text-[#713b47]"}`} aria-hidden="true">
           {confirmed ? "✓" : "!"}
         </span>
-        <h1 className="mt-6 font-serif text-3xl">{confirmed ? "E-poštni naslov je potrjen" : "Povezava ni več veljavna"}</h1>
-        <p className="mt-4 text-sm leading-7 text-[#b9b4cf]">
+        <h1 className="retro-title mt-6 text-2xl">{confirmed ? "E-poštni naslov je potrjen" : "Povezava ni več veljavna"}</h1>
+        <p className="mt-4 text-sm leading-7">
           {confirmed
-            ? "Tvoj račun je potrjen in pripravljen. Hvala, ker si se pridružil_a The Five Factions."
+            ? "Tvoj račun je potrjen. Zdaj se lahko prijaviš."
             : "Potrditvena povezava je napačna ali je potekla. Začni registracijo znova, da prejmeš novo sporočilo."}
         </p>
-        <Link href="/" className="mt-8 inline-flex rounded-full bg-[#22203d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#423875]">
-          Nadaljuj na začetno stran
+        <Link href={confirmed ? "/login" : "/register"} className="retro-button mt-8 inline-flex">
+          {confirmed ? "Prijava" : "Nova registracija"}
         </Link>
+        </div>
       </section>
     </main>
   );

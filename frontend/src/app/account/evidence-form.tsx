@@ -74,9 +74,9 @@ export function EvidenceForm({ assignmentId }: { assignmentId: string }) {
   }, [state]);
 
   return (
-    <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="mt-5 space-y-4 border-t border-[#302b4b] pt-5">
+    <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="mt-4 space-y-4 border-t border-dotted border-[#8974a8] pt-4">
       <div>
-        <label htmlFor={`work-${assignmentId}`} className="mb-2 block text-sm font-medium text-[#d3c5ff]">
+        <label htmlFor={`work-${assignmentId}`} className="mb-2 block font-mono text-xs font-bold text-[#e7d8fa]">
           Opis opravljanja naloge <span className="font-normal text-[#aaa5c0]">(neobvezno)</span>
         </label>
         <textarea
@@ -85,12 +85,12 @@ export function EvidenceForm({ assignmentId }: { assignmentId: string }) {
           rows={3}
           maxLength={5000}
           placeholder="Opiši, kako si opravil_a nalogo …"
-          className="w-full resize-y rounded-xl border border-[#40395e] bg-[#0e1122] px-4 py-3 text-sm leading-6 text-[#f0edfa] outline-none transition placeholder:text-[#817b9d] focus:border-[#9f85ed] focus:ring-2 focus:ring-[#7762be]/25"
+          className="retro-input resize-y"
         />
       </div>
 
       <div>
-        <label htmlFor={`reflection-${assignmentId}`} className="mb-2 block text-sm font-medium text-[#d3c5ff]">
+        <label htmlFor={`reflection-${assignmentId}`} className="mb-2 block font-mono text-xs font-bold text-[#e7d8fa]">
           Osebni razmislek <span className="font-normal text-[#aaa5c0]">(neobvezno)</span>
         </label>
         <textarea
@@ -99,12 +99,12 @@ export function EvidenceForm({ assignmentId }: { assignmentId: string }) {
           rows={3}
           maxLength={5000}
           placeholder="Kaj si opazil_a ali se naučil_a?"
-          className="w-full resize-y rounded-xl border border-[#40395e] bg-[#0e1122] px-4 py-3 text-sm leading-6 text-[#f0edfa] outline-none transition placeholder:text-[#817b9d] focus:border-[#9f85ed] focus:ring-2 focus:ring-[#7762be]/25"
+          className="retro-input resize-y"
         />
       </div>
 
       <div>
-        <label htmlFor={`photo-${assignmentId}`} className="mb-2 block text-sm font-medium text-[#d3c5ff]">
+        <label htmlFor={`photo-${assignmentId}`} className="mb-2 block font-mono text-xs font-bold text-[#e7d8fa]">
           Fotografija <span className="font-normal text-[#aaa5c0]">(neobvezno)</span>
         </label>
         <input
@@ -112,16 +112,16 @@ export function EvidenceForm({ assignmentId }: { assignmentId: string }) {
           name="photo"
           type="file"
           accept="image/jpeg,image/png,image/webp"
-          className="block w-full cursor-pointer rounded-xl border border-[#40395e] bg-[#0e1122] text-sm text-[#c9c2dc] file:mr-4 file:border-0 file:bg-[#27203c] file:px-4 file:py-3 file:font-medium file:text-[#d3c5ff] hover:file:bg-[#38305f]"
+          className="retro-file-input"
         />
-        <p className="mt-2 text-xs text-[#aaa5c0]">JPEG, PNG ali WebP; največ 50 MiB. Vsaj eno polje mora vsebovati dokazilo.</p>
+        <p className="mt-2 font-mono text-[11px] text-[#d3c4e5]">JPEG, PNG ali WebP; največ 50 MiB. Vsaj eno polje mora vsebovati dokazilo.</p>
       </div>
 
       {(uploadMessage || state.message) && (
         <p
           role={uploadMessage || state.status === "error" ? "alert" : "status"}
           aria-live="polite"
-          className={`rounded-xl border px-4 py-3 text-sm leading-6 ${uploadMessage || state.status === "error" ? "border-[#704359] bg-[#2d1b28] text-[#ffc1d8]" : "border-[#3e6659] bg-[#172a25] text-[#b9eedb]"}`}
+          className={`border-2 px-4 py-3 text-sm leading-6 ${uploadMessage || state.status === "error" ? "border-[#c07d98] bg-[#3b2030] text-[#ffd3e2]" : "border-[#8db69c] bg-[#20352b] text-[#d1f0d8]"}`}
         >
           {uploadMessage || state.message}
         </p>
@@ -130,7 +130,7 @@ export function EvidenceForm({ assignmentId }: { assignmentId: string }) {
       <button
         type="submit"
         disabled={isUploading || isSubmitting}
-        className="rounded-full bg-[#423875] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#594b91] disabled:cursor-wait disabled:opacity-65"
+        className="retro-button disabled:cursor-wait disabled:opacity-65"
       >
         {isUploading || isSubmitting ? "Oddajam dokazilo …" : "Oddaj dokazilo"}
       </button>

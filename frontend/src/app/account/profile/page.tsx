@@ -40,27 +40,25 @@ async function ProfilePageContent({
   const { emailStatus } = await searchParams;
 
   return (
-    <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
-      <div className="mx-auto max-w-5xl">
+    <main className="retro-site min-h-screen">
+      <div className="retro-window p-3 sm:p-5">
         <AccountNavigation active="profile" />
 
-        <section className="mx-auto mt-10 max-w-3xl sm:mt-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Nastavitve</p>
-          <h1 className="mt-2 font-serif text-4xl">Uredi profil</h1>
-          <p className="mb-7 mt-3 text-sm leading-6 text-[#b9b4cf]">Posodobi podatke, s katerimi se prijavljaš v The Five Factions.</p>
+        <section className="mt-5">
+          <h1 className="border-b-2 border-double border-[#9279b2] pb-2 text-3xl">Uredi profil</h1>
 
           {emailStatus === "confirmed" && (
-            <p role="status" className="mb-5 rounded-xl border border-[#51416f] bg-[#211b36] px-4 py-3 text-sm leading-6 text-[#c9b9ff]">
+            <p role="status" className="retro-paper mt-4 px-3 py-2 text-sm leading-6">
               Potrditev je uspela. Če si prejel_a še drugo potrditveno sporočilo, potrdi tudi tisto.
             </p>
           )}
           {emailStatus === "invalid" && (
-            <p role="alert" className="mb-5 rounded-xl border border-[#55344f] bg-[#271827] px-4 py-3 text-sm leading-6 text-[#ffc1d8]">
+            <p role="alert" className="mt-4 border-2 border-[#c07d98] bg-[#3b2030] px-3 py-2 text-sm leading-6 text-[#ffd3e2]">
               Potrditvena povezava je napačna ali je potekla. Poskusi znova spremeniti e-poštni naslov.
             </p>
           )}
 
-          <div className="space-y-5">
+          <div className="mt-4 space-y-4">
             <FactionSelectionForm
               factions={factions}
               selectedFactionIds={memberships.map((membership) => membership.faction_id)}

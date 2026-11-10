@@ -9,17 +9,17 @@ export function ReviewDecisionForm({ evidenceId }: { evidenceId: string }) {
   const [state, formAction, pending] = useActionState(reviewEvidenceAction, initialState);
 
   return (
-    <form action={formAction} className="mt-6 border-t border-[#302b4b] pt-5">
+    <form action={formAction} className="mt-5 border-t border-dotted border-[#8974a8] pt-4">
       <input type="hidden" name="evidenceId" value={evidenceId} />
-      <p className="text-sm font-medium text-[#d3c5ff]">Ali je dokazilo ustrezno za potrjeno opravljeno nalogo?</p>
-      {state.message && <p role="alert" className="mt-3 rounded-xl border border-[#704359] bg-[#2d1b28] px-4 py-3 text-sm text-[#ffc1d8]">{state.message}</p>}
+      <p className="font-mono text-xs font-bold text-[#e7d8fa]">Odločitev o dokazilu</p>
+      {state.message && <p role="alert" className="mt-3 border-2 border-[#c07d98] bg-[#3b2030] px-3 py-2 text-sm text-[#ffd3e2]">{state.message}</p>}
       <div className="mt-4 flex flex-wrap gap-3">
         <button
           type="submit"
           name="decision"
           value="approved"
           disabled={pending}
-          className="rounded-full border border-[#3e6659] bg-[#172a25] px-5 py-2.5 text-sm font-semibold text-[#b9eedb] transition hover:bg-[#214034] disabled:opacity-60"
+          className="retro-button border-[#8db69c] bg-[#20352b] disabled:opacity-60"
         >
           Potrdi dokazilo
         </button>
@@ -28,7 +28,7 @@ export function ReviewDecisionForm({ evidenceId }: { evidenceId: string }) {
           name="decision"
           value="rejected"
           disabled={pending}
-          className="rounded-full border border-[#704359] bg-[#2d1b28] px-5 py-2.5 text-sm font-semibold text-[#ffc1d8] transition hover:bg-[#462536] disabled:opacity-60"
+          className="retro-button border-[#c07d98] bg-[#3b2030] disabled:opacity-60"
         >
           Zavrni dokazilo
         </button>
