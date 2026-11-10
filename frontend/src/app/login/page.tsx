@@ -22,15 +22,15 @@ async function LoginPageContent({
       : undefined;
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f5f2ea] px-5 py-12 text-[#20251f]">
-      <section className="w-full max-w-md rounded-3xl border border-[#ded9ce] bg-[#fbfaf6] p-8 shadow-[0_24px_70px_-48px_rgba(32,37,31,0.4)] sm:p-10">
+    <main className="grid min-h-screen place-items-center bg-[#090b18] px-5 py-12 text-[#f0edfa]">
+      <section className="w-full max-w-md rounded-3xl border border-[#302b4b] bg-[#12162a] p-8 shadow-[0_24px_70px_-48px_rgba(32,37,31,0.4)] sm:p-10">
         <Link href="/" className="inline-flex items-center gap-3" aria-label="Nazaj na začetno stran">
-          <span className="grid size-10 place-items-center rounded-full bg-[#263a31] font-serif text-lg text-[#f5f2ea]">5</span>
+          <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
           <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
         </Link>
-        <p className="mt-9 text-xs font-semibold uppercase tracking-[0.2em] text-[#8a6942]">Dobrodošel_a nazaj</p>
+        <p className="mt-9 text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Dobrodošel_a nazaj</p>
         <h1 className="mt-2 font-serif text-3xl">Prijava</h1>
-        <p className="mb-7 mt-2 text-sm leading-6 text-[#6c746a]">Vnesi e-poštni naslov in geslo, s katerima si ustvaril_a račun.</p>
+        <p className="mb-7 mt-2 text-sm leading-6 text-[#b9b4cf]">Vnesi e-poštni naslov in geslo, s katerima si ustvaril_a račun.</p>
         <LoginForm notice={notice} />
       </section>
     </main>

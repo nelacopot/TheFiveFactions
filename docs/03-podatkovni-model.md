@@ -234,4 +234,4 @@ Migracija doda še `work_description` pri dokazilu, ker zgodba zahteva opis izve
 
 RLS je vklopljen za vseh devet tabel. Član lahko ureja svoje profilne podatke in članstva, ne more pa sam spreminjati ranga, vloge, vsebine nalog ali statusa dokazila. E-pošta ostaja v Auth in ni izpostavljena pri branju profilov. Začetna vloga Administrator se podeli ročno lokalnemu računu prek Supabase Studia; poznejša dodeljevanja naj potekajo prek administratorskega vmesnika.
 
-Fotografije dokazil se shranjujejo v zasebni bucket `evidence`; dovoljene so slike JPEG, PNG in WebP do 50 MiB. Povezave do Storage objektov so dostopne samo prijavljenim članom, nalaganje pa je omejeno na mapo z ID-jem lastnega računa. Lokalni Auth zahteva potrjen e-poštni naslov in uporablja 15-minutni čas neaktivnosti, kot določajo uporabniške zgodbe.
+Fotografije dokazil se shranjujejo v zasebni bucket `evidence`; dovoljene so slike JPEG, PNG in WebP do 50 MiB. Povezave do Storage objektov so dostopne samo prijavljenim članom, nalaganje pa je omejeno na mapo z ID-jem lastnega računa. Lokalni Auth zahteva potrjen e-poštni naslov; seja ostane aktivna, dokler se uporabnik izrecno ne odjavi.

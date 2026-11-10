@@ -13,12 +13,12 @@ export function LoginForm({ notice }: { notice?: string }) {
   return (
     <form action={formAction} className="space-y-5">
       {notice && (
-        <p role="status" className="rounded-xl border border-[#c8d8c9] bg-[#edf5ed] px-4 py-3 text-sm leading-6 text-[#294738]">
+        <p role="status" className="rounded-xl border border-[#51416f] bg-[#211b36] px-4 py-3 text-sm leading-6 text-[#c9b9ff]">
           {notice}
         </p>
       )}
       {state.message && (
-        <p role="alert" aria-live="polite" className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-800">
+        <p role="alert" aria-live="polite" className="rounded-xl border border-[#55344f] bg-[#271827] px-4 py-3 text-sm leading-6 text-[#ffc1d8]">
           {state.message}
         </p>
       )}
@@ -32,7 +32,7 @@ export function LoginForm({ notice }: { notice?: string }) {
           autoComplete="email"
           required
           maxLength={254}
-          className="w-full rounded-xl border border-[#d8d5cb] bg-white px-4 py-3 outline-none transition placeholder:text-[#9a9f96] focus:border-[#526e5c] focus:ring-2 focus:ring-[#526e5c]/15"
+          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25"
           placeholder="ime@primer.si"
         />
       </div>
@@ -45,7 +45,7 @@ export function LoginForm({ notice }: { notice?: string }) {
           type="password"
           autoComplete="current-password"
           required
-          className="w-full rounded-xl border border-[#d8d5cb] bg-white px-4 py-3 outline-none transition placeholder:text-[#9a9f96] focus:border-[#526e5c] focus:ring-2 focus:ring-[#526e5c]/15"
+          className="w-full rounded-xl border border-[#393452] bg-[#0e1122] px-4 py-3 outline-none transition placeholder:text-[#8983a2] focus:border-[#9a83e8] focus:ring-2 focus:ring-[#9a83e8]/25"
           placeholder="Vnesi geslo"
         />
       </div>
@@ -53,13 +53,13 @@ export function LoginForm({ notice }: { notice?: string }) {
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-full bg-[#263a31] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#344d41] disabled:cursor-wait disabled:opacity-65"
+        className="flex w-full items-center justify-center rounded-full bg-[#22203d] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#423875] disabled:cursor-wait disabled:opacity-65"
       >
         {isPending ? "Prijavljam …" : "Prijava"}
       </button>
 
-      <p className="text-center text-sm text-[#6c746a]">
-        Še nimaš računa? <Link href="/register" className="font-semibold text-[#294738] underline underline-offset-4">Registracija</Link>
+      <p className="text-center text-sm text-[#b9b4cf]">
+        Še nimaš računa? <Link href="/register" className="font-semibold text-[#c9b9ff] underline underline-offset-4">Registracija</Link>
       </p>
     </form>
   );

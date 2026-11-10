@@ -47,7 +47,7 @@ Kot obiskovalec želim ustvariti uporabniški račun in se prijaviti v aplikacij
 3. Ob vnosu pravilnih prijavnih podatkov sistem uporabniku omogoči dostop do njegovega računa. Ob napačnih podatkih dostop zavrne in o tem prikaže sporočilo uporabniku.
 4. Prijavljeni uporabnik se lahko odjavi in ureja svoje osnovne profilne podatke (e-poštni naslov, uporabniško ime in geslo), ne more pa spreminjati profila drugega uporabnika.
 Če uporabnik spremeni e-poštni naslov ali uporabniško ime, morata biti ta prav tako unikatna (kot ob registraciji)
-5. Prijavljeni uporabnik ostane prijavljen do konca trajanja seje (15 min neaktivnosti)
+5. Prijavljeni uporabnik ostane prijavljen, dokler se izrecno ne odjavi.
 
 ---
 
