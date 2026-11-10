@@ -4,6 +4,8 @@ import { connection } from "next/server";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
+import { DashboardAutoRefresh } from "@/app/account/dashboard-auto-refresh";
+import { RankShield, StreakFlame } from "@/app/account/progress-icons";
 
 async function FactionDashboardContent({
   params,
@@ -48,21 +50,26 @@ async function FactionDashboardContent({
         </header>
 
         <section className="mt-10 rounded-3xl border border-[#302b4b] bg-gradient-to-br from-[#1c1a39] via-[#15172f] to-[#101426] p-7 sm:mt-14 sm:p-12">
+          <DashboardAutoRefresh />
           <Link href="/account" className="text-sm font-semibold text-[#c9b9ff] underline underline-offset-4">← Nadzorna plošča</Link>
           <p className="mt-9 text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Tvoja pot</p>
           <h1 className="mt-3 font-serif text-5xl">{faction.name}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-[#b9b4cf]">{faction.description}</p>
 
           <div className="mt-9 grid gap-4 sm:grid-cols-2">
-            <article className="rounded-2xl border border-[#62518d] bg-[#17162f]/80 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#aaa5c0]">Trenutni rang</p>
-              <p className="mt-3 font-serif text-5xl text-[#d3c5ff]">{membership.rank_level}</p>
-              <p className="mt-2 text-sm text-[#aaa5c0]">Napreduj z rednim opravljanjem opravil.</p>
+            <article className="flex items-center gap-5 rounded-2xl border border-[#62518d] bg-[#17162f]/80 p-6">
+              <RankShield rank={membership.rank_level} />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#aaa5c0]">Trenutni rang</p>
+                <p className="mt-2 text-sm text-[#aaa5c0]">Napreduj z rednim opravljanjem opravil.</p>
+              </div>
             </article>
-            <article className="rounded-2xl border border-[#62518d] bg-[#17162f]/80 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#aaa5c0]">Streak</p>
-              <p className="mt-3 font-serif text-5xl text-[#d3c5ff]">{membership.current_streak_weeks}</p>
-              <p className="mt-2 text-sm text-[#aaa5c0]">Zaporedni aktivni tedni v tej ločini.</p>
+            <article className="flex items-center gap-5 rounded-2xl border border-[#62518d] bg-[#17162f]/80 p-6">
+              <StreakFlame weeks={membership.current_streak_weeks} />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#aaa5c0]">Zaporedni aktivni tedni</p>
+                <p className="mt-2 text-sm text-[#aaa5c0]">Streak za ločino {faction.name}.</p>
+              </div>
             </article>
           </div>
         </section>

@@ -64,6 +64,8 @@ Opomba: user_id in role_id sta v kombinaciji primarni ključ. Tako ni možno dod
 - rank_level
 - experience_points
 - current_streak_weeks
+- consecutive_incomplete_weeks
+- last_progress_week_start
 - joined_at
 - membership_status
 
@@ -178,6 +180,8 @@ erDiagram
     int rank_level
     int experience_points
     int current_streak_weeks
+    int consecutive_incomplete_weeks
+    date last_progress_week_start
     date joined_at
     string membership_status
   }
@@ -231,6 +235,7 @@ Prva migracija je v `supabase/migrations/`. Supabase Auth ostaja vir resnice za 
 Registracija pred ustvarjanjem računa kliče `is_username_available`; primerjava uporabniških imen ni občutljiva na velike/male črke, unikatni indeks pa varuje tudi pred sočasnimi podvojenimi vpisi. Unikatnost e-pošte uveljavlja Supabase Auth.
 
 Migracija doda še `work_description` pri dokazilu, ker zgodba zahteva opis izvedbe ločeno od osebnega razmisleka. Dodelitev naloge ima tudi status `cancelled`, ki ohrani zgodovino, kadar uporabnik zapusti ločino; odprte dodelitve te ločine se ob odstranitvi članstva prekličejo. Izbira ene ali več ločin se shrani prek atomarnega `set_user_factions` RPC-ja: ob odstranitvi se deaktivira samo članstvo za odstranjeno ločino, njene nedokončane dodelitve se prekličejo, opravljene dodelitve in dokazila pa ostanejo ohranjeni. Uporabnik mora imeti izbrano vsaj eno aktivno ločino. Ob ponovni izbiri predhodno zapuščene ločine se članstvo začne z rangom 1, 0 XP in streakom 0. Dokazila in pregledi so ob oddaji/preverjanju povezani s spremembo statusa dodelitve v isti transakciji.
+Tedenski obračun napredka obdela samo tedne, za katere ima član vsaj eno nepreklicano dodelitev v ločini. Obračun se izvede ob nedeljah ob 23:59 v časovnem pasu `Europe/Ljubljana`. Uspešen teden pomeni, da so vse dodeljene naloge označene kot opravljene; ta teden poveča streak in prispevek k naslednjemu rangu. Dva uspešna tedna povečata rang za eno stopnjo. Neuspešen teden ponastavi streak; po dveh zaporednih neuspešnih tednih se rang zniža za eno stopnjo. Tedenski datum obračuna preprečuje dvojno obdelavo, neopravljene dodelitve ob prehodu v Factionless pa se prekličejo brez brisanja dokazil ali zgodovine.
 
 RLS je vklopljen za vseh devet tabel. Član lahko ureja svoje profilne podatke in članstva, ne more pa sam spreminjati ranga, vloge, vsebine nalog ali statusa dokazila. E-pošta ostaja v Auth in ni izpostavljena pri branju profilov. Začetna vloga Administrator se podeli ročno lokalnemu računu prek Supabase Studia; poznejša dodeljevanja naj potekajo prek administratorskega vmesnika.
 
