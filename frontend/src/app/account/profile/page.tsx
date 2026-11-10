@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
+import { AccountNavigation } from "@/app/account/account-navigation";
 import { ProfileForms } from "./profile-forms";
 import { FactionSelectionForm } from "./faction-selection-form";
 
@@ -41,13 +41,7 @@ async function ProfilePageContent({
   return (
     <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between">
-          <Link href="/account" className="inline-flex items-center gap-3" aria-label="Nazaj na račun">
-            <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
-            <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
-          </Link>
-          <Link href="/account" className="text-sm font-semibold text-[#c9b9ff] underline underline-offset-4">Nazaj na račun</Link>
-        </header>
+        <AccountNavigation active="profile" />
 
         <section className="mx-auto mt-10 max-w-3xl sm:mt-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c3a8ff]">Nastavitve</p>

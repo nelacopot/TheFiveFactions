@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
+import { AccountNavigation } from "@/app/account/account-navigation";
 import { DashboardAutoRefresh } from "@/app/account/dashboard-auto-refresh";
 import { RankShield, StreakFlame } from "@/app/account/progress-icons";
 import { EvidenceForm } from "@/app/account/evidence-form";
@@ -52,13 +53,7 @@ async function FactionDashboardContent({
   return (
     <main className="min-h-screen bg-[#090b18] px-5 py-8 text-[#f0edfa] sm:px-8 sm:py-12">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between">
-          <Link href="/account" className="inline-flex items-center gap-3" aria-label="Nazaj na nadzorno ploščo">
-            <span className="grid size-10 place-items-center rounded-full bg-[#22203d] font-serif text-lg text-[#f0edfa]">5</span>
-            <span className="text-sm font-semibold uppercase tracking-[0.18em]">The Five Factions</span>
-          </Link>
-          <Link href="/account/profile#factions" className="text-sm font-semibold text-[#c9b9ff] underline underline-offset-4">Uredi ločine</Link>
-        </header>
+        <AccountNavigation />
 
         <section className="mt-10 rounded-3xl border border-[#302b4b] bg-gradient-to-br from-[#1c1a39] via-[#15172f] to-[#101426] p-7 sm:mt-14 sm:p-12">
           <DashboardAutoRefresh />
