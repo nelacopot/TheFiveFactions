@@ -1,4 +1,9 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { AuthLoading } from "@/app/auth-loading";
 
 const factions = [
   { name: "Altruism", virtue: "Care for others", mark: "A" },
@@ -8,7 +13,12 @@ const factions = [
   { name: "Verity", virtue: "Honesty and clarity", mark: "V" },
 ];
 
-export default function Home() {
+async function HomeContent() {
+  await connection();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) redirect("/account");
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#090b18] text-[#f0edfa]">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-7 sm:px-10">
@@ -47,5 +57,13 @@ export default function Home() {
 
       <footer className="border-t border-[#302b4b] px-6 py-5 text-center text-xs tracking-wide text-[#aaa5c0]">The Five Factions · Find your next small step</footer>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<AuthLoading />}>
+      <HomeContent />
+    </Suspense>
   );
 }
