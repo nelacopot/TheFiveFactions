@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: Verdana, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: "Courier New", monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --ink: #161128;
+  --deep: #09091b;
+  --violet: #c6a6f2;
+  --pink: #ffb2d2;
+  --lime: #e7ed86;
+  --paper: #fffdf6;
+  --paper-ink: #21182d;
+}
+
+html {
+  min-height: 100%;
+  background: var(--deep);
+}
+
+body {
+  min-height: 100%;
+  color: #f6f1ff;
+  background-color: var(--deep);
+  background-image:
+    linear-gradient(rgb(7 7 24 / 42%), rgb(7 7 24 / 66%)),
+    url("/artwork/night.jpg");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-serif {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: normal;
+  font-weight: 700;
+}
+
+a {
+  color: #e4cdfd;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #f3b6d9;
+}
+
+a:hover {
+  color: var(--lime);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  color: #170f26;
+  background: var(--lime);
+}
+
+.retro-site {
+  width: min(100% - 24px, 1000px);
+  margin-inline: auto;
+  padding: 18px 0 48px;
+}
+
+.retro-window {
+  border: 3px ridge #c7a7ed;
+  outline: 1px dotted rgb(231 237 134 / 65%);
+  outline-offset: 4px;
+  background: rgb(10 9 31 / 94%);
+  box-shadow: 8px 8px 0 rgb(5 4 17 / 78%);
+}
+
+.retro-panel {
+  border: 2px groove #a68ac9;
+  background: rgb(20 15 42 / 94%);
+  box-shadow: 4px 4px 0 rgb(4 4 19 / 75%);
+}
+
+.retro-bevel {
+  border: 2px outset #a68ac9;
+}
+
+.retro-paper {
+  border: 2px ridge #fff;
+  color: var(--paper-ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 #8465a6;
+}
+
+.retro-titlebar {
+  border-bottom: 2px ridge #a68ac9;
+  padding: 8px 12px;
+  color: #fff;
+  background: #39265e;
+  font: bold 12px/1.4 "Courier New", monospace;
+  letter-spacing: 0.04em;
+}
+
+.retro-label {
+  color: var(--lime);
+  font: bold 12px/1.4 "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.retro-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 2px outset #e2d0f6;
+  border-radius: 0;
+  padding: 7px 12px;
+  color: #fff !important;
+  background: #523477;
+  box-shadow: 2px 2px 0 #090718;
+  font: bold 12px/1.3 "Courier New", monospace;
+  text-decoration: none;
+}
+
+.retro-button:hover {
+  color: #fff !important;
+  background: #704c98;
+}
+
+.retro-button:active {
+  border-style: inset;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.retro-input {
+  width: 100%;
+  border: 2px inset #b8a6d1;
+  border-radius: 0;
+  padding: 9px 10px;
+  color: #1d1630;
+  background: #fffdf6;
+  font: 14px/1.4 "Courier New", monospace;
+  outline: none;
+}
+
+.retro-input::placeholder {
+  color: #7f7489;
+}
+
+.retro-input:focus {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+
+.retro-file-input {
+  width: 100%;
+  border: 2px inset #b8a6d1;
+  color: #21182d;
+  background: #fffdf6;
+  font: 12px "Courier New", monospace;
+}
+
+.retro-file-input::file-selector-button {
+  margin-right: 10px;
+  border: 0;
+  padding: 8px 10px;
+  color: #21182d;
+  background: #ddd0ec;
+  font: bold 12px "Courier New", monospace;
+}
+
+.retro-rule {
+  height: 3px;
+  border: 0;
+  background: repeating-linear-gradient(90deg, #bb9cdd 0 8px, transparent 8px 13px);
+}
+
+.retro-nav-link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  border: 1px outset #8e76ae;
+  padding: 6px 9px;
+  color: #f4eaff !important;
+  background: #201839;
+  font: bold 11px "Courier New", monospace;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.retro-nav-link[aria-current="page"] {
+  border-style: inset;
+  color: #171128 !important;
+  background: var(--lime);
+}
+
+.faction-icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  overflow: hidden;
+  border: 4px solid #fff;
+  background: #fff;
+  box-shadow: 3px 3px 0 #8465a6;
+}
+
+.faction-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.old-link-list a {
+  display: block;
+  border-bottom: 1px dotted #7d6c91;
+  padding: 7px 2px;
+}
+
+.old-link-list a.faction-index-link {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+    background-position: 52% top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

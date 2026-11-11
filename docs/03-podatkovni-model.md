@@ -31,8 +31,8 @@ Pomen kratic:
 - FK - foreign key
 
 ### 1. User
-- id (PK)
-- email (unique)
+- id (PK, FK to Supabase Auth user)
+- email (unique, managed by Supabase Auth)
 - username (unique)
 - display_name
 - account_status
@@ -64,6 +64,8 @@ Opomba: user_id in role_id sta v kombinaciji primarni ključ. Tako ni možno dod
 - rank_level
 - experience_points
 - current_streak_weeks
+- consecutive_incomplete_weeks
+- last_progress_week_start
 - joined_at
 - membership_status
 
@@ -94,9 +96,10 @@ omejitev: unikatna kombinacija user_id, task_id in week_start_date, da ista nalo
 ### 8. Evidence
 - id (PK)
 - assignment_id (FK)
+- work_description
 - reflection_text
 - file_path
-- status
+- status ... awaiting_review, approved ali rejected
 - submitted_at
 
 Opomba: file_path je zato, ker bom v bazi hranila le URL do fotografije ali datoteke, hranile se bodo v datotečni shrambi, da ne preobremenijo baze
@@ -178,6 +181,8 @@ erDiagram
     int rank_level
     int experience_points
     int current_streak_weeks
+    int consecutive_incomplete_weeks
+    date last_progress_week_start
     date joined_at
     string membership_status
   }
@@ -223,3 +228,18 @@ erDiagram
     datetime reviewed_at
   }
 ```
+
+### Uveljavitev v Supabase
+
+Prva migracija je v `supabase/migrations/`. Supabase Auth ostaja vir resnice za e-pošto in prijavne podatke; tabela `profiles` je aplikacijski del uporabniškega profila in se z identifikatorjem poveže 1:1 z `auth.users`. E-pošte zato ne podvajamo v `profiles`. Ob registraciji se profil in vloga Member ustvarita samodejno.
+
+Registracija pred ustvarjanjem računa kliče `is_username_available`; primerjava uporabniških imen ni občutljiva na velike/male črke, unikatni indeks pa varuje tudi pred sočasnimi podvojenimi vpisi. Unikatnost e-pošte uveljavlja Supabase Auth.
+
+Migracija doda še `work_description` pri dokazilu, ker zgodba zahteva opis izvedbe ločeno od osebnega razmisleka. Dodelitev naloge ima tudi status `cancelled`, ki ohrani zgodovino, kadar uporabnik zapusti ločino; odprte dodelitve te ločine se ob odstranitvi članstva prekličejo. Izbira ene ali več ločin se shrani prek atomarnega `set_user_factions` RPC-ja: ob odstranitvi se deaktivira samo članstvo za odstranjeno ločino, njene nedokončane dodelitve se prekličejo, opravljene dodelitve in dokazila pa ostanejo ohranjeni. Uporabnik mora imeti izbrano vsaj eno aktivno ločino. Ob ponovni izbiri predhodno zapuščene ločine se članstvo začne z rangom 1, 0 XP in streakom 0. Dokazila in pregledi so ob oddaji/preverjanju povezani s spremembo statusa dodelitve v isti transakciji.
+Tedenski obračun napredka obdela samo tedne, za katere ima član vsaj eno nepreklicano dodelitev v ločini. Obračun se izvede ob nedeljah ob 23:59 v časovnem pasu `Europe/Ljubljana`. Uspešen teden pomeni, da so vse dodeljene naloge označene kot opravljene; ta teden poveča streak in prispevek k naslednjemu rangu. Dva uspešna tedna povečata rang za eno stopnjo. Neuspešen teden ponastavi streak; po dveh zaporednih neuspešnih tednih se rang zniža za eno stopnjo. Tedenski datum obračuna preprečuje dvojno obdelavo, neopravljene dodelitve ob prehodu v Factionless pa se prekličejo brez brisanja dokazil ali zgodovine.
+
+Aktivne naloge so shranjene v `tasks` z ločino in težavnostjo 1–10. Ob ponedeljkovem začetku tedna sistem dodeli tri naključno izbrane naloge iz uporabnikove težavnostne skupine: 1–3, 4–7 ali 8–10. Enak id naloge se istemu uporabniku ne more dodeliti dvakrat v istem tednu zaradi unikatne omejitve `(user_id, task_id, week_start_date)`. Dodeljevanje se zagotavlja tudi ob odpiranju nadzorne plošče, da novo izbrana ločina ne čaka na naslednji tedenski urnik; rok je nedelja istega tedna.
+
+RLS je vklopljen za vseh devet tabel. Član lahko ureja svoje profilne podatke in članstva, ne more pa sam spreminjati ranga, vloge, vsebine nalog ali statusa dokazila. E-pošta ostaja v Auth in ni izpostavljena pri branju profilov. Začetna vloga Administrator se podeli ročno lokalnemu računu prek Supabase Studia; poznejša dodeljevanja naj potekajo prek administratorskega vmesnika.
+
+Fotografije dokazil se shranjujejo v zasebni bucket `evidence`; dovoljene so slike JPEG, PNG in WebP do 50 MiB. Povezave do Storage objektov so dostopne samo prijavljenim članom, nalaganje pa je omejeno na mapo z ID-jem lastnega računa. Lokalni Auth zahteva potrjen e-poštni naslov; seja ostane aktivna, dokler se uporabnik izrecno ne odjavi.
