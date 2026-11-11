@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { FactionIcon } from "@/components/faction-icon";
+import { FactionsLogo } from "@/components/factions-logo";
 
 export const metadata: Metadata = {
   title: "Ločine · The Five Factions",
@@ -41,7 +42,7 @@ export default function FactionsPage() {
     <main className="retro-site min-h-screen">
       <div className="retro-window">
         <header className="retro-titlebar flex flex-wrap items-center justify-between gap-3">
-          <Link href="/" className="text-white no-underline">5 · THE FIVE FACTIONS</Link>
+          <Link href="/" className="inline-flex items-center gap-2 text-white no-underline"><FactionsLogo size={32} /> THE FIVE FACTIONS</Link>
           <nav aria-label="Glavni meni" className="flex flex-wrap gap-2">
             <Link href="/" className="retro-nav-link">Domov</Link>
             <Link href="/login" className="retro-nav-link">Prijava</Link>

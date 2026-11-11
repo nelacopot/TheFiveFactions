@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { logoutAction } from "@/app/login/actions";
+import { FactionsLogo } from "@/components/factions-logo";
 
 type AccountNavigationProps = {
   active?: "reviews" | "profile";
@@ -9,7 +10,7 @@ export function AccountNavigation({ active }: AccountNavigationProps) {
   return (
     <header className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-double border-[#9279b2] pb-3">
       <Link href="/account" className="inline-flex items-center gap-2 text-white no-underline" aria-label="HOME — nadzorna plošča">
-        <span className="grid size-9 place-items-center border-2 border-white bg-[#523477] font-serif text-lg">5</span>
+        <FactionsLogo size={38} />
         <span className="font-mono text-xs font-bold uppercase tracking-wider">The Five Factions</span>
       </Link>
 

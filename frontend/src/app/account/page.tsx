@@ -69,13 +69,12 @@ async function AccountPageContent({
           {logout === "failed" && <p role="alert" className="mb-4 border-2 border-[#d485a8] bg-[#401c36] px-3 py-2 text-sm text-[#ffd4e5]">Odjava ni uspela. Poskusi znova.</p>}
           <div className="retro-panel grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:p-5">
             <div>
-              <p className="retro-label">Nadzorna plošča</p>
-              <h1 className="mt-2 text-3xl">Živjo, {username}</h1>
-              {user.email && <p className="mt-2 font-mono text-xs text-[#d3c4e5]">Prijavljen_a kot {user.email}</p>}
+              <h1 className="mt-2 text-3xl">Hej, {username}</h1>
+              {user.email && <p className="mt-2 font-mono text-xs text-[#d3c4e5]">Prijavljen/a: {user.email}</p>}
             </div>
             <dl className="flex flex-wrap gap-2">
               <div className="retro-paper min-w-28 px-3 py-2">
-                <dt className="font-mono text-[10px] uppercase">Aktivne ločine</dt>
+                <dt className="font-mono text-[10px] uppercase">Ločine</dt>
                 <dd className="mt-1 font-serif text-2xl">{activeFactions.length}</dd>
               </div>
               <div className="retro-paper min-w-28 px-3 py-2">

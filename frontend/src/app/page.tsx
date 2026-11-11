@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthLoading } from "@/app/auth-loading";
 import { FactionIcon } from "@/components/faction-icon";
+import { FactionsLogo } from "@/components/factions-logo";
 
 const factions = ["Altruism", "Intellect", "Grit", "Harmony", "Verity"];
 
@@ -19,7 +20,7 @@ async function HomeContent() {
       <div className="retro-window">
         <header className="retro-titlebar flex flex-wrap items-center justify-between gap-3">
           <Link href="/" className="no-underline text-white" aria-label="The Five Factions — začetna stran">
-            <span className="mr-2 inline-grid size-7 place-items-center border-2 border-white bg-[#523477] font-serif text-lg">5</span>
+            <FactionsLogo size={36} />
             THE FIVE FACTIONS
           </Link>
           <nav aria-label="Glavni meni" className="flex flex-wrap items-center gap-2">

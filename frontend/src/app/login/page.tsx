@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { LoginForm } from "./login-form";
 import { AuthLoading } from "@/app/auth-loading";
+import { FactionsLogo } from "@/components/factions-logo";
 
 export const metadata: Metadata = {
   title: "The Five Factions",
@@ -27,7 +28,7 @@ async function LoginPageContent({
     <main className="retro-site grid min-h-screen place-items-center">
       <section className="retro-window w-full max-w-md p-4 sm:p-6">
         <header className="retro-titlebar -mx-4 -mt-4 mb-4 flex items-center justify-between sm:-mx-6 sm:-mt-6">
-          <Link href="/" className="text-white no-underline">5 · THE FIVE FACTIONS</Link>
+          <Link href="/" className="inline-flex items-center gap-2 text-white no-underline"><FactionsLogo size={32} /> THE FIVE FACTIONS</Link>
           <Link href="/" className="retro-nav-link">Domov</Link>
         </header>
         <div className="retro-panel p-4">
